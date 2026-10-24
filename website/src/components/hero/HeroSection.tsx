@@ -15,7 +15,7 @@ export function HeroSection() {
       opacity: 1,
       transition: {
         staggerChildren: shouldReduceMotion ? 0 : 0.1,
-        delayChildren: shouldReduceMotion ? 0 : 0.15,
+        delayChildren: shouldReduceMotion ? 0 : 0.12,
       },
     },
   };
@@ -56,7 +56,7 @@ export function HeroSection() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 my-auto max-w-4xl flex flex-col items-start gap-6 pt-6 pb-10"
+        className="relative z-10 my-auto max-w-5xl flex flex-col items-start gap-6 pt-4 pb-10"
       >
         {/* Eyebrow badge */}
         <motion.div
@@ -79,7 +79,7 @@ export function HeroSection() {
         >
           You see the Internet.{" "}
           <span className="block mt-1 sm:mt-2 text-burnt-orange">
-            Here is the colossal machine that powers it.
+            Here is the physical world that powers it.
           </span>
         </motion.h1>
 
@@ -88,7 +88,7 @@ export function HeroSection() {
           variants={itemVariants}
           className="text-lg sm:text-xl md:text-2xl text-charcoal-muted font-normal leading-relaxed max-w-2xl text-pretty"
         >
-          An interactive expedition into 1.4 million kilometers of deep-sea glass, multi-megawatt cooling systems, and the unseen workforce keeping civilization online.
+          An interactive digital documentary tracing 1.4 million kilometers of deep-sea glass, multi-megawatt cooling systems, and the unseen workforce keeping civilization online.
         </motion.p>
 
         {/* Prominent Action Controls */}
@@ -100,25 +100,25 @@ export function HeroSection() {
             <a
               href="#journey-section"
               onClick={handleScrollTo("journey-section")}
-              onMouseEnter={() => setHoveredAction("start-journey")}
+              onMouseEnter={() => setHoveredAction("explore-journey")}
               onMouseLeave={() => setHoveredAction(null)}
-              onFocus={() => setHoveredAction("start-journey")}
+              onFocus={() => setHoveredAction("explore-journey")}
               onBlur={() => setHoveredAction(null)}
-              aria-label="Start the Journey of a Single Click"
-              className="group relative inline-flex items-center justify-center gap-3 rounded-lg px-8 py-4 text-base font-semibold tracking-wide text-white bg-burnt-orange hover:bg-burnt-orange-hover active:scale-[0.99] transition-all duration-200 shadow-md hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange"
+              aria-label="Explore the journey of a single click"
+              className="group relative inline-flex items-center justify-center gap-3 rounded-xl px-8 py-4 text-base sm:text-lg font-bold tracking-wide text-white bg-burnt-orange hover:bg-burnt-orange-hover active:scale-[0.99] transition-all duration-200 shadow-md hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange"
             >
-              <Sparkles className="h-4 w-4 text-muted-gold animate-pulse" />
-              <span>Start the Journey of a Single Click</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              <Sparkles className="h-5 w-5 text-muted-gold animate-pulse" />
+              <span>Explore the journey</span>
+              <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
 
             {/* Contextual hover preview */}
-            {hoveredAction === "start-journey" && (
+            {hoveredAction === "explore-journey" && (
               <div
                 role="tooltip"
-                className="absolute left-0 -bottom-9 z-20 hidden sm:flex items-center gap-1.5 rounded-md bg-charcoal text-ivory text-[11px] font-mono px-2.5 py-1 shadow-md whitespace-nowrap animate-in fade-in zoom-in-95 duration-150"
+                className="absolute left-0 -bottom-9 z-20 hidden sm:flex items-center gap-1.5 rounded-md bg-charcoal text-ivory text-[11px] font-mono px-2.5 py-1 shadow-md whitespace-nowrap"
               >
-                <span>Launches step-by-step physical packet traversal</span>
+                <span>Launches the 6-stage physical packet expedition</span>
               </div>
             )}
           </div>
@@ -127,17 +127,49 @@ export function HeroSection() {
             href="#pedagogical-context"
             onClick={handleScrollTo("pedagogical-context")}
             aria-label="Review STS pedagogical context and research methodology"
-            className="group inline-flex items-center justify-center gap-2 rounded-lg border border-warm-sand-border bg-ivory-light px-6 py-4 text-base font-medium text-charcoal hover:border-burnt-orange/50 hover:bg-white active:scale-[0.99] transition-all duration-200 shadow-2xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange"
+            className="group inline-flex items-center justify-center gap-2 rounded-xl border border-warm-sand-border bg-ivory-light px-6 py-4 text-base font-semibold text-charcoal hover:border-burnt-orange/50 hover:bg-white active:scale-[0.99] transition-all duration-200 shadow-2xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange"
           >
             <Compass className="h-4 w-4 text-burnt-orange transition-transform duration-300 group-hover:rotate-45" />
             <span>Research &amp; Methodology</span>
           </a>
         </motion.div>
 
-        {/* Grounded Infrastructure Metrics Tiles (Warm Editorial Aesthetic) */}
+        {/* User Request Illustration Card inside Hero */}
         <motion.div
           variants={itemVariants}
-          className="mt-6 pt-6 border-t border-warm-sand-border w-full grid grid-cols-1 sm:grid-cols-3 gap-5 text-left"
+          className="w-full mt-2 rounded-2xl border border-warm-sand-border bg-ivory-light/90 p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center gap-6"
+        >
+          <div className="flex-1 flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-burnt-orange uppercase">
+              <span className="h-1.5 w-1.5 rounded-full bg-burnt-orange" />
+              <span>THE EXPEDITION BLUEPRINT</span>
+            </div>
+            <h2 className="text-lg sm:text-xl font-bold text-charcoal">
+              Every click triggers a transoceanic physical chain reaction
+            </h2>
+            <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed font-sans">
+              From the electromagnetic radio transceiver inside your smartphone, through municipal glass trenches, carrier meet-me rooms, coastal high-voltage power injectors, and abyssal repeaters at 4,000 meters depth.
+            </p>
+          </div>
+
+          {/* Mini Visual Diagram of the Pipeline */}
+          <div className="shrink-0 flex items-center gap-2 bg-ivory rounded-xl border border-warm-sand-border px-3 py-2 text-xs font-mono font-bold text-charcoal">
+            <span className="text-burnt-orange">Device</span>
+            <span className="text-warm-sand">→</span>
+            <span>Fiber</span>
+            <span className="text-warm-sand">→</span>
+            <span>IXP</span>
+            <span className="text-warm-sand">→</span>
+            <span className="text-burnt-orange">Subsea</span>
+            <span className="text-warm-sand">→</span>
+            <span>Cloud</span>
+          </div>
+        </motion.div>
+
+        {/* Grounded Infrastructure Metrics Tiles */}
+        <motion.div
+          variants={itemVariants}
+          className="pt-2 border-t border-warm-sand-border w-full grid grid-cols-1 sm:grid-cols-3 gap-5 text-left"
         >
           <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border bg-ivory-light p-4 shadow-2xs">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-burnt-orange tracking-tight">

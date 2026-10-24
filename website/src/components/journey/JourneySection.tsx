@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { TRACEROUTE_STAGES } from "@/data/tracerouteStages";
-import { JourneyDiagramCanvas } from "./JourneyDiagramCanvas";
-import { JourneyInspector } from "./JourneyInspector";
-import { JourneyControlBar } from "./JourneyControlBar";
+import { PhysicalEnvironmentScene } from "./PhysicalEnvironmentScene";
+import { JourneyNarrativePanel } from "./JourneyNarrativePanel";
+import { JourneyNavigatorBar } from "./JourneyNavigatorBar";
 import { HelpCircle } from "lucide-react";
 
 export function JourneySection() {
   const [activeStageNumber, setActiveStageNumber] = useState<number>(1);
+  const [direction, setDirection] = useState<number>(1);
   const totalStages = TRACEROUTE_STAGES.length;
   const isDirectAction = useRef(false);
 
@@ -18,26 +19,26 @@ export function JourneySection() {
 
   const handleSelectStage = useCallback((stageNum: number) => {
     if (stageNum >= 1 && stageNum <= totalStages) {
+      setDirection(stageNum > activeStageNumber ? 1 : -1);
       isDirectAction.current = true;
       setActiveStageNumber(stageNum);
 
-      // Re-enable scroll observer after user interaction animation completes
       setTimeout(() => {
         isDirectAction.current = false;
-      }, 700);
+      }, 600);
     }
-  }, [totalStages]);
+  }, [activeStageNumber, totalStages]);
 
   const handleReplay = useCallback(() => {
+    setDirection(-1);
     handleSelectStage(1);
-    // Smoothly ensure the journey section is in view
     const section = document.getElementById("journey-section");
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
   }, [handleSelectStage]);
 
-  // Global Keyboard Shortcuts (Developer Portfolio Experience)
+  // Global Keyboard Shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -47,7 +48,6 @@ export function JourneySection() {
         return;
       }
 
-      // 1 through 6 direct jump
       const num = parseInt(e.key, 10);
       if (num >= 1 && num <= totalStages) {
         e.preventDefault();
@@ -78,16 +78,17 @@ export function JourneySection() {
       aria-label="The Journey of a Single Click"
       className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border"
     >
-      {/* Anchor for external links */}
+      {/* Anchor targets to ensure all prior links (including old #traceroute) land here */}
+      <div id="traceroute" className="scroll-mt-28" />
       <div id="journey-of-data" className="scroll-mt-28" />
 
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
-        {/* Experience Header */}
-        <div className="flex flex-col gap-3 max-w-4xl">
+      <div className="max-w-6xl mx-auto flex flex-col gap-10">
+        {/* Section Title & Story Framing */}
+        <div className="flex flex-col gap-3 max-w-3xl">
           <div className="flex items-center gap-2">
             <span className="flex h-2 w-2 rounded-full bg-burnt-orange" />
             <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
-              INTERACTIVE EXPEDITION // 06 PHYSICAL HOPS
+              INTERACTIVE EXPEDITION // 06 PHYSICAL STAGES
             </span>
           </div>
 
@@ -98,50 +99,28 @@ export function JourneySection() {
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-charcoal-muted leading-relaxed max-w-3xl">
-            Click, scroll, or use your keyboard to follow a single transoceanic data packet as it leaves your antenna, 
-            travels through neighborhood glass conduits, crosses abyssal seabeds, and triggers computing engines inside multi-megawatt facilities.
+          <p className="text-base sm:text-lg text-charcoal-muted leading-relaxed">
+            Follow a single data packet as it leaves your antenna, travels through municipal glass conduits, 
+            crosses the abyssal seabed, and triggers compute engines inside multi-megawatt facilities.
           </p>
-
-          {/* Interaction Keyboard Hints */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs font-mono text-charcoal-muted">
-            <span className="flex items-center gap-1.5 rounded bg-ivory-light border border-warm-sand-border px-2 py-0.5 shadow-2xs">
-              <kbd className="font-bold text-burnt-orange">1-6</kbd> Direct Jump
-            </span>
-            <span className="flex items-center gap-1.5 rounded bg-ivory-light border border-warm-sand-border px-2 py-0.5 shadow-2xs">
-              <kbd className="font-bold text-burnt-orange">← / →</kbd> Step Hops
-            </span>
-            <span className="flex items-center gap-1.5 rounded bg-ivory-light border border-warm-sand-border px-2 py-0.5 shadow-2xs">
-              <kbd className="font-bold text-burnt-orange">R</kbd> Replay
-            </span>
-            <span className="text-charcoal-muted/70 hidden sm:inline">
-              · Hover elements for contextual previews
-            </span>
-          </div>
         </div>
 
-        {/* Sticky Control Bar HUD */}
-        <div className="sticky top-20 z-40">
-          <JourneyControlBar
-            activeStageNumber={activeStageNumber}
-            totalStages={totalStages}
-            onSelectStage={handleSelectStage}
-            onReplay={handleReplay}
-          />
-        </div>
-
-        {/* Persistent Interactive Diagram Canvas */}
-        <JourneyDiagramCanvas
-          stages={TRACEROUTE_STAGES}
+        {/* Minimalist Journey Controls HUD */}
+        <JourneyNavigatorBar
           activeStageNumber={activeStageNumber}
+          totalStages={totalStages}
           onSelectStage={handleSelectStage}
+          onReplay={handleReplay}
         />
 
-        {/* Synchronized Contextual Inspector */}
-        <JourneyInspector stage={currentStage} />
+        {/* The Dominant Physical Environment Visual Scene */}
+        <PhysicalEnvironmentScene stage={currentStage} direction={direction} />
+
+        {/* Narrative & Progressive Disclosure Dossier */}
+        <JourneyNarrativePanel stage={currentStage} />
 
         {/* Pedagogical Integrity Note */}
-        <div className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-4 text-xs font-sans text-charcoal-muted">
+        <div className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-4 text-xs font-sans text-charcoal-muted max-w-4xl mx-auto w-full">
           <HelpCircle className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">
