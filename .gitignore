@@ -1,0 +1,31 @@
+# Dependencies
+website/node_modules/
+node_modules/
+
+# Next.js build output
+website/.next/
+website/out/
+.next/
+out/
+
+# Production builds
+website/build/
+
+# Environment files
+website/.env*
+.env*
+
+# Vercel & Turbo
+website/.vercel/
+website/.turbo/
+
+# Logs
+website/npm-debug.log*
+npm-debug.log*
+
+# TypeScript cache
+website/*.tsbuildinfo
+
+# OS metadata
+.DS_Store
+Thumbs.db
