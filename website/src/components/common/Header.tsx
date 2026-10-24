@@ -27,16 +27,16 @@ export function Header() {
 
       <nav aria-label="Main Navigation" className="flex items-center gap-4">
         <a
-          href="#hidden-network"
-          className="text-xs font-mono text-foreground-muted hover:text-cyan-accent transition-colors duration-200"
+          href="#traceroute"
+          className="text-xs font-mono text-cyan-accent hover:text-white transition-colors duration-200"
         >
-          {"//"} INFRASTRUCTURE
+          {"//"} TRACEROUTE
         </a>
         <a
-          href="#journey-of-data"
+          href="#hidden-network"
           className="text-xs font-mono text-foreground-muted hover:text-cyan-accent transition-colors duration-200 hidden sm:inline"
         >
-          {"//"} DATA JOURNEY
+          {"//"} ROADMAP
         </a>
         <div className="flex items-center gap-1.5 rounded-full border border-surface-border bg-surface/80 px-2.5 py-1 text-[11px] font-mono text-cyan-accent">
           <span className="relative flex h-2 w-2">

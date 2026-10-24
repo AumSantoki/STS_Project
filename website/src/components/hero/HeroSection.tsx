@@ -97,9 +97,9 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4"
         >
           <a
-            href="#hidden-network"
-            onClick={handleScrollTo("hidden-network")}
-            aria-label="Explore the hidden network - jump to infrastructure introduction"
+            href="#traceroute"
+            onClick={handleScrollTo("traceroute")}
+            aria-label="Explore the hidden network - jump to physical traceroute workbench"
             className="group relative inline-flex items-center justify-center gap-3 rounded-lg px-7 py-4 text-sm font-semibold tracking-wide text-background bg-cyan-accent hover:bg-cyan-accent/90 transition-all duration-200 shadow-[0_0_25px_rgba(0,240,255,0.3)] hover:shadow-[0_0_35px_rgba(0,240,255,0.5)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-accent active:scale-[0.99]"
           >
             <span>Explore the hidden network</span>
@@ -109,7 +109,7 @@ export function HeroSection() {
           <a
             href="#journey-of-data"
             onClick={handleScrollTo("journey-of-data")}
-            aria-label="Discover the journey of data - jump to data journey preview"
+            aria-label="Discover the journey of data - jump to interactive traceroute"
             className="group inline-flex items-center justify-center gap-2.5 rounded-lg border border-surface-border bg-surface/70 px-6 py-4 text-sm font-medium text-foreground hover:text-white hover:border-cyan-accent/40 hover:bg-surface-hover/80 transition-all duration-200 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-accent"
           >
             <Compass className="h-4 w-4 text-cyan-accent transition-transform duration-300 group-hover:rotate-45" />
@@ -159,13 +159,13 @@ export function HeroSection() {
         className="relative z-10 flex flex-col items-center justify-center pt-4"
       >
         <a
-          href="#hidden-network"
-          onClick={handleScrollTo("hidden-network")}
-          aria-label="Scroll to inspect the hidden infrastructure network"
+          href="#traceroute"
+          onClick={handleScrollTo("traceroute")}
+          aria-label="Scroll to inspect the physical traceroute"
           className="group flex flex-col items-center gap-2 text-foreground-muted hover:text-cyan-accent transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-cyan-accent"
         >
           <span className="text-[10px] font-mono tracking-[0.25em] uppercase font-medium">
-            SCROLL TO REVEAL
+            SCROLL TO EXPLORE TRACEROUTE
           </span>
           <div className="flex h-8 w-5 items-start justify-center rounded-full border border-surface-border p-1 group-hover:border-cyan-accent/50 transition-colors">
             <motion.div
