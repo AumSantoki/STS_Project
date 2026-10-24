@@ -9,6 +9,7 @@ interface JourneyNavigatorBarProps {
   totalStages: number;
   onSelectStage: (stageNumber: number) => void;
   onReplay: () => void;
+  scrollProgress?: number;
 }
 
 export function JourneyNavigatorBar({
@@ -16,6 +17,7 @@ export function JourneyNavigatorBar({
   totalStages,
   onSelectStage,
   onReplay,
+  scrollProgress = 0,
 }: JourneyNavigatorBarProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
@@ -116,6 +118,19 @@ export function JourneyNavigatorBar({
           <span className="hidden sm:inline">NEXT</span>
           <ChevronRight className="h-4 w-4" />
         </button>
+      </div>
+
+      {/* Scrub Track with continuous progress feedback */}
+      <div className="w-full flex items-center gap-3 pt-1 border-t border-warm-sand-border/50">
+        <div className="flex-1 h-1.5 rounded-full bg-warm-sand/60 overflow-hidden">
+          <div
+            className="h-full bg-burnt-orange rounded-full transition-all duration-100 ease-out"
+            style={{ width: `${Math.min(100, Math.max(2, Math.round(scrollProgress * 100)))}%` }}
+          />
+        </div>
+        <span className="font-mono text-[10px] text-charcoal-muted tracking-wider shrink-0 font-bold">
+          SCRUB: {Math.round(scrollProgress * 100)}%
+        </span>
       </div>
     </div>
   );
