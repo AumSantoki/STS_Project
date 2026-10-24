@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Behind the Screen: The Physical World That Powers the Internet",
   description:
-    "An educational cinematic exploration into the physical infrastructure, subsea cables, data centres, and human workforce that power the global Internet.",
+    "An interactive digital documentary exploring the physical infrastructure, subsea cables, data centres, and human workforce that power the global Internet.",
   keywords: [
     "Internet infrastructure",
     "Subsea cables",
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0B0E",
-  colorScheme: "dark",
+  themeColor: "#F5F0E6",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -45,9 +45,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground selection:bg-cyan-accent/20 selection:text-cyan-accent">
+      <body className="min-h-full bg-ivory text-charcoal selection:bg-burnt-orange/20 selection:text-burnt-orange">
         {children}
       </body>
     </html>
