@@ -34,7 +34,7 @@ export interface TracerouteStage {
   stageNumber: number;
   title: string;
   shortLabel: string;
-  category: "Edge & RF" | "Access Network" | "Core Routing" | "Coastal Interface" | "Subsea Optical" | "Hyperscale Compute";
+  category: string;
   summary: string;
   physicalExplanation: string;
   hardwareSpecs: HardwareSpec[];

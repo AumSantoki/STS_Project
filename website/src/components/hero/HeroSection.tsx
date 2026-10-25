@@ -142,13 +142,13 @@ export function HeroSection() {
           <div className="flex-1 flex flex-col gap-1.5">
             <div className="flex items-center gap-2 font-mono text-xs font-bold text-burnt-orange uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-burnt-orange" />
-              <span>THE EXPEDITION BLUEPRINT</span>
+              <span>THE PHYSICAL JOURNEY</span>
             </div>
             <h2 className="text-lg sm:text-xl font-bold text-charcoal">
-              Every click triggers a transoceanic physical chain reaction
+              Every click triggers an intercontinental physical chain reaction
             </h2>
             <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed font-sans">
-              From the electromagnetic radio transceiver inside your smartphone, through municipal glass trenches, carrier meet-me rooms, coastal high-voltage power injectors, and abyssal repeaters at 4,000 meters depth.
+              From the antenna inside your device, through buried neighborhood fiber, global exchange hubs, and coastal cable stations to undersea lines across the ocean floor.
             </p>
           </div>
 
@@ -156,13 +156,13 @@ export function HeroSection() {
           <div className="shrink-0 flex items-center gap-2 bg-ivory rounded-xl border border-warm-sand-border px-3 py-2 text-xs font-mono font-bold text-charcoal">
             <span className="text-burnt-orange">Device</span>
             <span className="text-warm-sand">→</span>
-            <span>Fiber</span>
+            <span>Local Fiber</span>
             <span className="text-warm-sand">→</span>
-            <span>IXP</span>
+            <span>Exchange</span>
             <span className="text-warm-sand">→</span>
-            <span className="text-burnt-orange">Subsea</span>
+            <span className="text-burnt-orange">Ocean Cable</span>
             <span className="text-warm-sand">→</span>
-            <span>Cloud</span>
+            <span>Data Centre</span>
           </div>
         </motion.div>
 

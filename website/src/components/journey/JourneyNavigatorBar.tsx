@@ -22,12 +22,12 @@ export function JourneyNavigatorBar({
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const stageShortTitles: Record<number, string> = {
-    1: "User & Handset",
-    2: "Street Conduit",
-    3: "Carrier Peering",
-    4: "Shoreline CLS",
-    5: "Abyssal Seabed",
-    6: "Cloud Hall",
+    1: "Your Device",
+    2: "Local Network",
+    3: "Networks Connect",
+    4: "Coastal Station",
+    5: "Ocean Cable",
+    6: "Data Centre",
   };
 
   return (

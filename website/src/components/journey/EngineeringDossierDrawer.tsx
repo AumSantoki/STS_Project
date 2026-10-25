@@ -61,7 +61,7 @@ export function EngineeringDossierDrawer({
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-burnt-orange" />
               <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
-                HOP 0{stage.stageNumber} {"//"} DOSSIER &amp; STS RESEARCH
+                STAGE 0{stage.stageNumber} • TECHNICAL DETAILS &amp; RESEARCH
               </span>
             </div>
             <h2 className="text-xl font-extrabold text-charcoal">

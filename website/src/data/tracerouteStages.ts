@@ -15,13 +15,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-01-device-local",
     stageNumber: 1,
-    title: "Device RF Transceiver & Local Gateway",
-    shortLabel: "01. Device & Wi-Fi",
-    category: "Edge & RF",
+    title: "Your Device",
+    shortLabel: "01. Your Device",
+    category: "Your Device",
     summary:
-      "Digital bits are converted into electromagnetic radio waves traversing ambient space before entering any physical wire.",
+      "Your phone or computer turns your digital action into radio waves moving through the air.",
     physicalExplanation:
-      "When you tap a button or type an address, your device's operating system forms an application request. The network stack encapsulates this data into link-layer frames, passing raw bits to an internal radio frequency (RF) transceiver. The antenna modulates electromagnetic waves over license-free spectrum bands (commonly 2.4 GHz, 5 GHz, or 6 GHz). Within your room, these invisible radio waves collide with walls and furniture before reaching a local wireless access point or router modem.",
+      "When you tap a link or send a message, your phone or computer creates a digital request. Tiny antennas inside your device translate this data into invisible radio waves. These waves travel through the air in your room at the speed of light until they reach your home Wi-Fi router.",
+    whyItMatters:
+      "Walls, furniture, and distance from your router can weaken these radio waves and slow down your connection.",
     hardwareSpecs: [
       {
         label: "RF Modulation",
@@ -39,8 +41,6 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "Maps private local addresses (192.168.x.x) to an ISP-assigned public IP address",
       },
     ],
-    whyItMatters:
-      "Physical obstruction, distance from the router, wall construction materials, and channel congestion represent the primary source of unpredictable first-hop packet latency and jitter.",
     humanRoles: [
       {
         role: "Hardware & RF Design Engineers",
@@ -81,13 +81,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-02-last-mile",
     stageNumber: 2,
-    title: "Last-Mile Distribution & ISP Central Office",
-    shortLabel: "02. Last-Mile Fiber",
-    category: "Access Network",
+    title: "Your Local Network",
+    shortLabel: "02. Local Network",
+    category: "Neighborhood Fiber",
     summary:
-      "Local signals enter physical glass conduits buried beneath municipal streets, converging at the regional Internet Service Provider.",
+      "Laser pulses carry your request through thin glass cables buried beneath neighborhood streets.",
     physicalExplanation:
-      "At your home gateway, an Optical Network Terminal (ONT) converts electrical signals into laser pulses of infrared light. This light travels through thin optical fiber—often bundled alongside power lines or buried under sidewalks in PVC conduits. It passes through passive neighborhood splitters (which allow up to 32 or 64 homes to share one central optical feeder fiber) and terminates at an Optical Line Terminal (OLT) within the local ISP Central Office or regional Point of Presence (PoP).",
+      "Your home router converts the radio waves into quick flashes of laser light. This light enters a thin glass fiber cable buried beneath your street. Neighborhood splitters combine signals from nearby homes so everyone shares access to the main telecom line.",
+    whyItMatters:
+      "Accidental damage during street construction or severe storms can physically break these cables and disconnect entire neighborhoods.",
     hardwareSpecs: [
       {
         label: "Physical Medium",
@@ -105,8 +107,6 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "Authenticates subscriber sessions and enforces bandwidth throttling tiers",
       },
     ],
-    whyItMatters:
-      "The last mile is the physical frontline of the global digital divide. As documented by ITU and GSMA data, billions of people live in covered areas but lack high-speed physical fiber infrastructure due to rural trenching costs and prohibitive device pricing.",
     humanRoles: [
       {
         role: "Outside Plant (OSP) Fiber Splicers",
@@ -147,13 +147,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-03-ixp-routing",
     stageNumber: 3,
-    title: "Internet Exchange Point (IXP) & BGP Core",
-    shortLabel: "03. IXP Peering Core",
-    category: "Core Routing",
+    title: "Where Networks Connect",
+    shortLabel: "03. Networks Connect",
+    category: "Network Exchange",
     summary:
-      "Autonomous networks voluntarily interconnect their core routers inside massive carrier-neutral colocation facilities.",
+      "Independent networks link together inside large connection buildings to share traffic worldwide.",
     physicalExplanation:
-      "The global Internet is a voluntary federation of over 110,000 independent networks called Autonomous Systems (AS). To exchange traffic without paying expensive third-party transit fees, major ISPs, cloud providers, and content distribution networks physically meet inside specialized carrier-neutral buildings known as Internet Exchange Points (IXPs). Core routers run Border Gateway Protocol (BGP), exchanging routing tables to determine the most cost-effective path across continental boundaries.",
+      "Your request arrives at an Internet Exchange, a large secure building where different telecom companies and web services meet. Here, companies plug their fiber cables directly into shared switches, allowing data to jump between different networks without paying extra middleman fees.",
+    whyItMatters:
+      "These shared exchange hubs let thousands of separate networks cooperate so your data can reach any website on the globe.",
     hardwareSpecs: [
       {
         label: "Core Routing Engines",
@@ -171,8 +173,6 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "Applies Longest Prefix Match (LPM) on Forwarding Information Base (FIB) tables",
       },
     ],
-    whyItMatters:
-      "Routing is not determined by shortest physical distance, but by commercial contracts, peering policies, and geopolitics. An accidental BGP misconfiguration or route leak can instantly redirect global traffic across unauthorized continents or plunge millions of users offline.",
     humanRoles: [
       {
         role: "BGP & Network Operations (NOC) Engineers",
@@ -213,13 +213,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-04-landing-station",
     stageNumber: 4,
-    title: "Cable Landing Station (CLS) & Coastal Interface",
-    shortLabel: "04. Cable Landing Station",
-    category: "Coastal Interface",
+    title: "Coastal Cable Station",
+    shortLabel: "04. Coastal Station",
+    category: "Coastline & Power",
     summary:
-      "Fortified shore facilities marry terrestrial fiber networks with undersea cables while injecting up to 15,000 volts DC into the ocean.",
+      "Coastal stations prepare signals for ocean journeys and send electrical power deep into the sea.",
     physicalExplanation:
-      "Where continental land ends, data enters a heavily secured coastal facility: the Cable Landing Station (CLS). Here, terrestrial fiber links are coupled to transoceanic submarine cable systems. Because light attenuates over ocean distances, optical repeaters on the seafloor need continuous power. The landing station houses massive Power Feed Equipment (PFE), which injects thousands of volts of constant direct current into a central copper tube running the entire length of the subsea cable, using seawater as an electrical ground return.",
+      "At the coastline, data enters a fortified building called a Cable Landing Station. Here, land cables join the heavy underwater cable. Because light weakens over ocean distances, high-voltage equipment sends up to 15,000 volts of electricity along the cable to power amplifiers on the seabed.",
+    whyItMatters:
+      "Because so many international lines converge at small coastal points, natural disasters or power failures here can isolate whole countries.",
     hardwareSpecs: [
       {
         label: "Terminal Optronics",
@@ -237,8 +239,6 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "Heavy steel-armored cable buried 2–3 meters beneath surf zones to resist anchor strikes",
       },
     ],
-    whyItMatters:
-      "Landing stations are severe geopolitical and natural single points of failure. As demonstrated by the 2022 Tonga volcanic disaster, a tsunami or coastal cut at a landing station can isolate an entire country for over five weeks until specialized repair ships arrive.",
     humanRoles: [
       {
         role: "High-Voltage Power Engineers",
@@ -262,16 +262,16 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
     ],
     metrics: [
       {
-        label: "PFE Voltage Feed",
+        label: "Cable Power Feed",
         value: "10 – 15",
         unit: "kV DC",
-        context: "High-voltage direct current energized through subsea copper conductor tube",
+        context: "High-voltage electricity sent through subsea copper conductor to power underwater repeaters",
       },
       {
         label: "Shore Cable Armor",
         value: "Double Steel",
         unit: "wires",
-        context: "Multi-layered galvanized steel armor wrapped around fiber for shallow-water defense",
+        context: "Multi-layered steel armor protecting the cable against fishing nets and anchors near shore",
       },
     ],
     iconKey: "anchor",
@@ -279,13 +279,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-05-submarine-cable",
     stageNumber: 5,
-    title: "Transoceanic Subsea Optical Fiber Conduit",
-    shortLabel: "05. Subsea Cable",
-    category: "Subsea Optical",
+    title: "Cable Beneath the Ocean",
+    shortLabel: "05. Ocean Cable",
+    category: "Deep Ocean",
     summary:
-      "Hair-thin glass strands resting in the ocean abyss carry 99% of civilization's intercontinental digital communication.",
+      "Undersea fiber cables resting on the deep seafloor carry over 95% of international communication.",
     physicalExplanation:
-      "Contrary to popular belief, satellites carry less than 1% of intercontinental internet traffic. Over 99% travels through approximately 1.4 million kilometers of subsea fiber-optic cables resting on the ocean floor at depths exceeding 4,000 meters. Inside, pulses of infrared light (1550 nm) bounce through ultra-pure silica glass via total internal reflection. Light travels through optical glass at approximately 204,500 km/s—roughly two-thirds its speed in a vacuum—establishing the physical floor for international latency.",
+      "The cable rests on the ocean floor, thousands of meters beneath the surface. Infrared laser pulses bounce through hair-thin glass cores at roughly 200,000 kilometers per second. Every 40 to 60 miles, titanium amplifier pods boost the fading light so it can finish its journey across the ocean.",
+    whyItMatters:
+      "Over 95% of all intercontinental Internet traffic travels through undersea cables, not satellites.",
     hardwareSpecs: [
       {
         label: "Optical Repeaters",
@@ -303,8 +305,6 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "Achieved across 8 fiber pairs spanning 6,600 km from Virginia Beach to Bilbao, Spain",
       },
     ],
-    whyItMatters:
-      "Submarine cables are physically fragile. Between 70% and 80% of cable breaks are caused by unintentional human activity (commercial fishing trawlers dragging nets, ship anchors). A severed cable in deep water requires mobilizing scarce, specialized repair ships that take weeks to splice.",
     humanRoles: [
       {
         role: "Cable Ship Captains & ROV Operators",
@@ -343,7 +343,7 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         label: "Repeater Spacing",
         value: "60 – 100",
         unit: "km",
-        context: "Interval along ocean floor between erbium-doped optical amplifiers",
+        context: "Interval along ocean floor between optical signal amplifiers",
       },
     ],
     iconKey: "cable",
@@ -351,13 +351,15 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
   {
     id: "stage-06-datacenter",
     stageNumber: 6,
-    title: "Hyperscale Data Center Hall & Thermodynamic Grid",
-    shortLabel: "06. Hyperscale Center",
-    category: "Hyperscale Compute",
+    title: "The Data Centre",
+    shortLabel: "06. Data Centre",
+    category: "Cloud & Compute",
     summary:
-      "Tens of thousands of servers consume megawatts of electrical energy and river-scale cooling to compute and return your response.",
+      "Rooms full of powerful computers process your request and send the answer back.",
     physicalExplanation:
-      "The physical destination is a cavernous hyperscale computing facility. Here, Top-of-Rack (ToR) switches route incoming packets to specific server blades. The CPU and GPU compute clusters process database lookups, decrypt TLS sessions, and generate the response. Because computing silicon converts nearly 100% of consumed electrical energy into heat, the facility operates industrial thermodynamic machinery: computer room air handlers (CRAH), cooling towers, and liquid chillers that pump thousands of liters of chilled water continuously.",
+      "The cable comes ashore on the other side of the ocean and reaches a giant data centre. Inside chilly server rooms, specialized computers find the data you asked for, generate the response, and send it back across the exact same path in just milliseconds.",
+    whyItMatters:
+      "Massive power supplies and continuous liquid cooling systems run day and night to keep global online services running.",
     hardwareSpecs: [
       {
         label: "Compute Chassis",
@@ -375,41 +377,39 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
         detail: "PUE = Total Facility Power / IT Equipment Power. Modern hyperscalers target 1.10 – 1.25",
       },
     ],
-    whyItMatters:
-      "Cloud services are not weightless. The physical concentration of computing into mega-campuses (like Northern Virginia) creates massive regional demands for municipal grid power, clean water for evaporative cooling, and heavy electronic waste recycling challenges.",
     humanRoles: [
       {
-        role: "Critical Facilities & HVAC Engineers",
-        responsibility: "Operating chilled water loops, monitoring temperature deltas across hot/cold aisles, and chemical water treatments.",
-        fieldReality: "24/7 on-site shifts inside deafening acoustic environments with industrial airflow fans.",
+        role: "Critical Facilities Operations Engineers",
+        responsibility: "Managing thermal loops, electrical sub-stations, and backup generator transfer switches.",
+        fieldReality: "Wearing hearing protection and arc-flash suits during maintenance in 85+ dBA noisy cold aisles.",
       },
       {
-        role: "Hardware & Server Technicians",
-        responsibility: "Diagnosing failed memory DIMMs, dead server power supplies, and swapping optical transceivers.",
-        fieldReality: "Walking miles daily across football-field-sized data halls with barcode scanners and replacement parts.",
+        role: "Data Centre Hardware Technicians",
+        responsibility: "Swapping failed server blades, optical transceivers, and diagnosing memory faults.",
+        fieldReality: "Walking miles daily across warehouse-scale facilities with strict security clearance check-points.",
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 2: Inside the Cloud & Subtopic 3",
-      sectionOrPage: "Subtopic 2 (Chapters 2–9, pp. 2–13); Subtopic 3 (p. 2, Cooling and facility efficiency)",
-      citationNotes: "HM216 Subtopic 2 Technical Report and Uptime Institute data center infrastructure benchmarks.",
+      documentTitle: "Behind the Screen — Subtopic 2: Inside the Cloud Detailed Report",
+      sectionOrPage: "Chapter 1 (pp. 4–5); Chapter 3 (pp. 8–10); Chapter 4 (pp. 11–13)",
+      citationNotes: "Facility engineering specs, cooling thermodynamic loops, and environmental impact assessments.",
     },
     caveats: [
-      "Data centers are not all massive hyperscale campuses: thousands of smaller enterprise server rooms and edge PoPs exist.",
-      "Many modern web requests are served directly from RAM caches at the nearest CDN edge node and never wake up origin server disks.",
+      "Not all data centres are hyperscalers: edge facilities and enterprise on-premise server closets operate at lower scale and lower thermal efficiency.",
+      "A single web request may trigger dozens of microservice lookups across multiple internal data center clusters before the final response is assembled.",
     ],
     metrics: [
       {
-        label: "Typical Hyperscale Draw",
-        value: "30 – 100+",
-        unit: "Megawatts",
-        context: "Electricity demanded by a large facility, equivalent to powering tens of thousands of homes",
+        label: "Facility Power",
+        value: "40 – 100",
+        unit: "MW",
+        context: "Electrical capacity of a single hyperscale campus, equivalent to power for 80,000 homes",
       },
       {
-        label: "PUE Target Range",
-        value: "1.10 – 1.25",
-        unit: "ratio",
-        context: "Modern hyperscale Power Usage Effectiveness (1.0 is theoretical perfection)",
+        label: "Cooling Efficiency",
+        value: "1.15",
+        unit: "PUE",
+        context: "Power Usage Effectiveness ratio: only 15% extra energy spent on cooling and power distribution",
       },
     ],
     iconKey: "server",

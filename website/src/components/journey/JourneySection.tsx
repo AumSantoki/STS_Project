@@ -167,19 +167,19 @@ export function JourneySection() {
       {/* Pinned Viewport Container (Locks in place on desktop while scrolling) */}
       <div
         ref={pinnedWrapperRef}
-        className="w-full min-h-screen py-6 sm:py-8 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-between max-w-7xl mx-auto"
+        className="w-full min-h-screen lg:h-screen lg:max-h-[850px] py-4 sm:py-6 px-4 sm:px-8 md:px-12 flex flex-col justify-between max-w-7xl mx-auto overflow-visible"
       >
         {/* Top Header & Navigation Scrubber */}
-        <div className="flex flex-col gap-4 w-full">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <span className="flex h-2 w-2 rounded-full bg-burnt-orange" />
                 <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
-                  INTERACTIVE EXPEDITION // 06 PHYSICAL STAGES
+                  INTERACTIVE EXPEDITION • 6 JOURNEY STAGES
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-charcoal">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-charcoal">
                 The Journey of a Single Click:{" "}
                 <span className="text-burnt-orange">Traversing Earth, Sea, and Silicon</span>
               </h2>
@@ -200,10 +200,10 @@ export function JourneySection() {
           />
         </div>
 
-        {/* Coherent Scene: Balanced Side-by-Side Storyboard & Visual Scene */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1 my-4">
-          {/* Left Column: Essential Explanation & Action Controls (~42% width) */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
+        {/* Coherent Scene: Balanced 46% Storyboard & 54% Visual Scene */}
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch flex-1 my-2 sm:my-3 min-h-0">
+          {/* Left Column: Essential Explanation & Action Controls (46% width) */}
+          <div className="w-full lg:w-[46%] flex flex-col justify-center min-h-0">
             <JourneyStoryPanel
               stage={currentStage}
               totalStages={totalStages}
@@ -213,8 +213,8 @@ export function JourneySection() {
             />
           </div>
 
-          {/* Right Column: Dominant Panoramic World Viewport (~58% width) */}
-          <div className="lg:col-span-7 flex flex-col justify-center min-h-[360px] lg:min-h-[480px]">
+          {/* Right Column: Appropriately Sized Panoramic World Viewport (54% width) */}
+          <div className="w-full lg:w-[54%] flex flex-col justify-center min-h-[300px] sm:min-h-[360px] lg:min-h-[400px]">
             <PanoramicWorldSvg
               cameraX={cameraX}
               packetProgress={scrollProgress}
@@ -224,15 +224,15 @@ export function JourneySection() {
         </div>
 
         {/* Pedagogical Integrity Note */}
-        <div className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 text-xs font-sans text-charcoal-muted w-full">
+        <div className="flex items-start gap-2.5 rounded-xl border border-warm-sand-border bg-ivory-light p-3 text-xs font-sans text-charcoal-muted w-full">
           <HelpCircle className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">
               Pedagogical Note on Internet Routing Reality:
             </strong>
             <span>
-              This interactive journey illustrates an intercontinental request (e.g. streaming a resource hosted overseas). 
-              Domestic or local traffic terminates at nearby regional Edge CDN nodes without touching Cable Landing Stations or crossing submarine oceans.
+              This interactive journey illustrates an intercontinental request (such as querying a service hosted overseas). 
+              Most local traffic terminates at nearby regional network hubs without touching Coastal Cable Stations or crossing undersea oceans.
             </span>
           </div>
         </div>
