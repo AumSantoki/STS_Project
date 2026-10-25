@@ -33,6 +33,12 @@ export function Header() {
           {"//"} THE JOURNEY
         </a>
         <a
+          href="#physical-internet"
+          className="text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
+        >
+          {"//"} HARDWARE ATLAS
+        </a>
+        <a
           href="#people-behind"
           className="text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
         >

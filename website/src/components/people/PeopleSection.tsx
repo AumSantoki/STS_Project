@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PEOPLE_ROLES } from "@/data/peopleRoles";
 import { RoleCardSelector } from "./RoleCardSelector";
 import { RoleDossierView } from "./RoleDossierView";
@@ -10,6 +10,18 @@ import { Users, AlertTriangle, ShieldCheck } from "lucide-react";
 export function PeopleSection() {
   const [activeRoleId, setActiveRoleId] = useState<string>(PEOPLE_ROLES[0].id);
   const [activeMode, setActiveMode] = useState<"roles" | "incidents">("roles");
+
+  useEffect(() => {
+    const handleSelectRole = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (customEvent.detail && PEOPLE_ROLES.some((r) => r.id === customEvent.detail)) {
+        setActiveRoleId(customEvent.detail);
+        setActiveMode("roles");
+      }
+    };
+    window.addEventListener("select-role", handleSelectRole);
+    return () => window.removeEventListener("select-role", handleSelectRole);
+  }, []);
 
   const currentRole =
     PEOPLE_ROLES.find((r) => r.id === activeRoleId) || PEOPLE_ROLES[0];
