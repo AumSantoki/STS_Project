@@ -79,7 +79,7 @@ export function IncidentTimelineSimulator({
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full rounded-2xl border border-warm-sand-border bg-ivory p-6 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
+    <div className="flex flex-col gap-8 w-full rounded-2xl border border-warm-sand-border bg-ivory p-4 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
       {/* Simulation Header */}
       <div className="flex flex-col gap-2 max-w-3xl">
         <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ export function IncidentTimelineSimulator({
       </AnimatePresence>
 
       {/* Interactive Step-by-Step Incident Card */}
-      <div className="rounded-2xl border-2 border-warm-sand-border bg-ivory-light p-6 sm:p-8 flex flex-col justify-between gap-6 shadow-sm overflow-hidden">
+      <div className="rounded-2xl border-2 border-warm-sand-border bg-ivory-light p-4 sm:p-8 flex flex-col justify-between gap-6 shadow-sm overflow-hidden">
         {/* Step Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-warm-sand-border">
           <div className="flex items-center gap-3">
@@ -188,7 +188,7 @@ export function IncidentTimelineSimulator({
         </div>
 
         {/* Step Detail Content with Smooth Text Transitions and Stable Height Budget */}
-        <div className="relative min-h-[175px] sm:min-h-[155px]">
+        <div className="relative min-h-[220px] sm:min-h-[175px] lg:min-h-[155px]">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${scenario.id}-step-${currentStep.stepNumber}`}
@@ -240,14 +240,15 @@ export function IncidentTimelineSimulator({
         </div>
 
         {/* Step Controls */}
-        <div className="flex items-center justify-between gap-4 pt-4 border-t border-warm-sand-border">
+        <div className="flex items-center justify-between gap-2 sm:gap-4 pt-4 border-t border-warm-sand-border">
           <button
             onClick={() => setActiveStepIndex((prev) => Math.max(0, prev - 1))}
             disabled={activeStepIndex === 0}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-warm-sand-border bg-ivory text-xs font-mono font-bold text-charcoal hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl border border-warm-sand-border bg-ivory text-xs font-mono font-bold text-charcoal hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-2xs cursor-pointer shrink-0"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span>PREVIOUS ACTION</span>
+            <span className="sm:hidden">PREV</span>
+            <span className="hidden sm:inline">PREVIOUS ACTION</span>
           </button>
 
           {activeStepIndex < totalSteps - 1 ? (
@@ -255,15 +256,16 @@ export function IncidentTimelineSimulator({
               onClick={() =>
                 setActiveStepIndex((prev) => Math.min(totalSteps - 1, prev + 1))
               }
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-burnt-orange text-xs sm:text-sm font-bold text-white hover:bg-burnt-orange-hover active:scale-[0.98] transition-all shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-burnt-orange text-xs sm:text-sm font-bold text-white hover:bg-burnt-orange-hover active:scale-[0.98] transition-all shadow-xs cursor-pointer"
             >
-              <span>Next coordination step</span>
+              <span className="sm:hidden">Next step</span>
+              <span className="hidden sm:inline">Next coordination step</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           ) : (
             <button
               onClick={() => setActiveStepIndex(0)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-charcoal text-xs sm:text-sm font-bold text-white hover:bg-black active:scale-[0.98] transition-all shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-charcoal text-xs sm:text-sm font-bold text-white hover:bg-black active:scale-[0.98] transition-all shadow-xs cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               <span>Restart scenario</span>

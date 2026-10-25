@@ -30,7 +30,7 @@ export function PeopleSection() {
     <section
       id="people-behind"
       aria-label="The People Behind the Internet"
-      className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border scroll-mt-20"
+      className="relative z-20 py-16 sm:py-20 px-4 sm:px-8 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border scroll-mt-20"
     >
       {/* Anchor for backward compatibility and direct jump */}
       <div id="keeping-running" className="scroll-mt-28" />
@@ -57,29 +57,31 @@ export function PeopleSection() {
         </div>
 
         {/* Mode Switcher Tabs */}
-        <div className="flex flex-wrap items-center gap-3 p-1.5 rounded-2xl border border-warm-sand-border bg-ivory-light self-start shadow-2xs">
+        <div className="w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 p-1.5 rounded-2xl border border-warm-sand-border bg-ivory-light self-start shadow-2xs">
           <button
             onClick={() => setActiveMode("roles")}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               activeMode === "roles"
                 ? "bg-burnt-orange text-white shadow-xs"
                 : "text-charcoal hover:bg-warm-sand/40"
             }`}
           >
-            <Users className="h-4 w-4" />
-            <span>EXPLORE THE 7 SPECIALIZED ROLES</span>
+            <Users className="h-4 w-4 shrink-0" />
+            <span className="sm:hidden">7 SPECIALIZED ROLES</span>
+            <span className="hidden sm:inline">EXPLORE THE 7 SPECIALIZED ROLES</span>
           </button>
 
           <button
             onClick={() => setActiveMode("incidents")}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               activeMode === "incidents"
                 ? "bg-burnt-orange text-white shadow-xs"
                 : "text-charcoal hover:bg-warm-sand/40"
             }`}
           >
-            <AlertTriangle className="h-4 w-4" />
-            <span>INCIDENT SIMULATOR: HOW TEAMS COORDINATE</span>
+            <AlertTriangle className="h-4 w-4 shrink-0" />
+            <span className="sm:hidden">INCIDENT SIMULATOR</span>
+            <span className="hidden sm:inline">INCIDENT SIMULATOR: HOW TEAMS COORDINATE</span>
           </button>
         </div>
 

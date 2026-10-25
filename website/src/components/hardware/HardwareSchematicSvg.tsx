@@ -12,18 +12,19 @@ export function HardwareSchematicSvg({
   onSelectPart,
 }: HardwareSchematicSvgProps) {
   return (
-    <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[430px] rounded-2xl border border-warm-sand-border bg-ivory-light overflow-hidden shadow-inner flex items-center justify-center select-none p-3 sm:p-4">
+    <div className="relative w-full h-[280px] sm:h-[360px] lg:h-[430px] rounded-2xl border border-warm-sand-border bg-ivory-light overflow-hidden shadow-inner flex items-center justify-center select-none p-2 sm:p-4">
       {/* Background Architectural Grid Coordinate Texture */}
       <div
         aria-hidden="true"
         className="absolute inset-0 opacity-20 pointer-events-none [background-image:linear-gradient(to_right,#E4D6C4_1px,transparent_1px),linear-gradient(to_bottom,#E4D6C4_1px,transparent_1px)] [background-size:20px_20px]"
       />
 
-      {/* Interactive Helper Banner */}
-      <div className="absolute top-3 left-4 z-10 flex items-center gap-2 pointer-events-none">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-charcoal text-ivory shadow-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-burnt-orange animate-pulse" />
-          <span>ANATOMICAL EXPLODED SCHEMATIC // CLICK PARTS TO INSPECT</span>
+      {/* Interactive Helper Banner with Mobile Adaptation */}
+      <div className="absolute top-2.5 sm:top-3 left-3 sm:left-4 z-10 flex items-center gap-2 pointer-events-none max-w-[90%]">
+        <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-md text-[9px] sm:text-[10px] font-mono font-bold bg-charcoal text-ivory shadow-xs truncate">
+          <span className="h-1.5 w-1.5 rounded-full bg-burnt-orange animate-pulse shrink-0" />
+          <span className="hidden sm:inline">ANATOMICAL EXPLODED SCHEMATIC // </span>
+          <span>CLICK PARTS TO INSPECT</span>
         </span>
       </div>
 

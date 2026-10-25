@@ -59,6 +59,7 @@ html {
   color-scheme: light;
   background-color: var(--ivory);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -112,6 +113,15 @@ body {
 
 .animate-fadeIn {
   animation: editorialFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Cross-browser scrollbar hiding for touch-friendly horizontal swipe rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Reduced motion accessibility support */

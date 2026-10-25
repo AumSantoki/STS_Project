@@ -44,7 +44,7 @@ export function IntroSection() {
     <section
       id="pedagogical-context"
       aria-label="Academic Research Context and Roadmap"
-      className="relative z-20 py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory-light border-t border-warm-sand-border text-charcoal scroll-mt-20"
+      className="relative z-20 py-16 sm:py-24 px-4 sm:px-8 md:px-16 lg:px-24 bg-ivory-light border-t border-warm-sand-border text-charcoal scroll-mt-20"
     >
       {/* Anchor for backward compatibility */}
       <div id="hidden-network" className="scroll-mt-28" />
@@ -141,14 +141,14 @@ export function IntroSection() {
         </div>
 
         {/* Academic Attribution Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-10 border-t border-warm-sand-border text-xs font-mono text-charcoal-muted">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 sm:pt-10 border-t border-warm-sand-border text-xs font-mono text-charcoal-muted text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-4 w-4 text-burnt-orange" />
+            <BookOpen className="h-4 w-4 text-burnt-orange shrink-0" />
             <span>Behind the Screen · STS Final Project (HM216)</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-4">
             <span>Preserved Research: 6 Empirical Papers</span>
-            <span>·</span>
+            <span className="hidden sm:inline">·</span>
             <span className="text-burnt-orange font-bold">
               Interaction Redesign Active
             </span>

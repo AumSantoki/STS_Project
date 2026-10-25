@@ -63,7 +63,7 @@ export function HardwareDetailPanel({
   };
 
   return (
-    <div className="flex flex-col gap-5 bg-ivory-light rounded-2xl border border-warm-sand-border p-5 sm:p-6 shadow-sm overflow-hidden">
+    <div className="flex flex-col gap-5 bg-ivory-light rounded-2xl border border-warm-sand-border p-4 sm:p-6 shadow-sm overflow-hidden">
       {/* Header Info with Smooth Cross-fade on Component Selection */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -112,36 +112,39 @@ export function HardwareDetailPanel({
       </AnimatePresence>
 
       {/* Sub-navigation Tabs */}
-      <div className="flex items-center gap-2 p-1 rounded-xl bg-warm-sand/40 border border-warm-sand-border text-xs font-mono">
+      <div className="flex items-center gap-1 sm:gap-2 p-1 rounded-xl bg-warm-sand/40 border border-warm-sand-border text-[11px] sm:text-xs font-mono">
         <button
           onClick={() => setActiveTab("architecture")}
-          className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2 sm:px-3 rounded-lg font-bold transition-all cursor-pointer text-center ${
             activeTab === "architecture"
               ? "bg-charcoal text-ivory shadow-xs"
               : "text-charcoal-muted hover:text-charcoal"
           }`}
         >
-          ANATOMY & WORKING
+          <span className="sm:hidden">ANATOMY</span>
+          <span className="hidden sm:inline">ANATOMY &amp; WORKING</span>
         </button>
         <button
           onClick={() => setActiveTab("specs")}
-          className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2 sm:px-3 rounded-lg font-bold transition-all cursor-pointer text-center ${
             activeTab === "specs"
               ? "bg-charcoal text-ivory shadow-xs"
               : "text-charcoal-muted hover:text-charcoal"
           }`}
         >
-          ENGINEERING SPECS
+          <span className="sm:hidden">SPECS</span>
+          <span className="hidden sm:inline">ENGINEERING SPECS</span>
         </button>
         <button
           onClick={() => setActiveTab("context")}
-          className={`flex-1 py-1.5 px-3 rounded-lg font-bold transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 px-2 sm:px-3 rounded-lg font-bold transition-all cursor-pointer text-center ${
             activeTab === "context"
               ? "bg-charcoal text-ivory shadow-xs"
               : "text-charcoal-muted hover:text-charcoal"
           }`}
         >
-          HUMAN & NETWORK LINKS
+          <span className="sm:hidden">WORKFORCE</span>
+          <span className="hidden sm:inline">HUMAN &amp; NETWORK LINKS</span>
         </button>
       </div>
 
@@ -268,11 +271,11 @@ export function HardwareDetailPanel({
                   key={i}
                   className="p-3 rounded-xl border border-warm-sand-border bg-ivory flex flex-col gap-1"
                 >
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
                     <span className="text-xs font-mono font-bold text-charcoal">
                       {spec.label}
                     </span>
-                    <span className="text-xs font-mono font-bold text-burnt-orange bg-burnt-orange/10 px-2 py-0.5 rounded-md">
+                    <span className="self-start sm:self-auto text-xs font-mono font-bold text-burnt-orange bg-burnt-orange/10 px-2 py-0.5 rounded-md">
                       {spec.value}
                     </span>
                   </div>

@@ -184,25 +184,25 @@ export function JourneySection() {
       {/* Pinned Viewport Container (Locks in place on desktop while scrolling) */}
       <div
         ref={pinnedWrapperRef}
-        className="w-full min-h-screen lg:h-screen lg:max-h-[850px] py-4 sm:py-6 px-4 sm:px-8 md:px-12 flex flex-col justify-between max-w-7xl mx-auto overflow-visible"
+        className="w-full min-h-screen lg:h-screen lg:max-h-[820px] lg:min-h-[580px] py-3 sm:py-4 lg:py-4 px-4 sm:px-8 md:px-12 flex flex-col justify-between max-w-7xl mx-auto overflow-visible"
       >
         {/* Top Header & Navigation Scrubber */}
-        <div className="flex flex-col gap-3 w-full">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2.5 sm:gap-3 w-full shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 sm:gap-2">
+            <div className="flex flex-col gap-0.5 sm:gap-1">
               <div className="flex items-center gap-2">
                 <span className="flex h-2 w-2 rounded-full bg-burnt-orange" />
-                <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
+                <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider sm:tracking-widest text-burnt-orange uppercase">
                   INTERACTIVE EXPEDITION • 6 JOURNEY STAGES
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-charcoal">
+              <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-charcoal">
                 The Journey of a Single Click:{" "}
                 <span className="text-burnt-orange">Traversing Earth, Sea, and Silicon</span>
               </h2>
             </div>
 
-            <div className="text-xs font-mono text-charcoal-muted shrink-0 hidden sm:block">
+            <div className="text-[11px] sm:text-xs font-mono text-charcoal-muted shrink-0 hidden sm:block">
               PHYSICAL LAYER SIMULATION
             </div>
           </div>
@@ -218,7 +218,7 @@ export function JourneySection() {
         </div>
 
         {/* Coherent Scene: Balanced 46% Storyboard & 54% Visual Scene */}
-        <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch flex-1 my-2 sm:my-3 min-h-0">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-stretch flex-1 my-1.5 sm:my-2.5 min-h-0">
           {/* Left Column: Essential Explanation & Action Controls (46% width) */}
           <div className="w-full lg:w-[46%] flex flex-col justify-center min-h-0">
             <JourneyStoryPanel
@@ -231,7 +231,7 @@ export function JourneySection() {
           </div>
 
           {/* Right Column: Appropriately Sized Panoramic World Viewport (54% width) */}
-          <div className="w-full lg:w-[54%] flex flex-col justify-center min-h-[300px] sm:min-h-[360px] lg:min-h-[400px]">
+          <div className="w-full lg:w-[54%] flex flex-col justify-center min-h-[260px] sm:min-h-[320px] lg:min-h-[300px] xl:min-h-[380px]">
             <PanoramicWorldSvg
               cameraX={cameraX}
               packetProgress={scrollProgress}
@@ -241,7 +241,7 @@ export function JourneySection() {
         </div>
 
         {/* Pedagogical Integrity Note */}
-        <div className="flex items-start gap-2.5 rounded-xl border border-warm-sand-border bg-ivory-light p-3 text-xs font-sans text-charcoal-muted w-full">
+        <div className="flex items-start gap-2 sm:gap-2.5 rounded-xl border border-warm-sand-border bg-ivory-light p-2.5 sm:p-3 text-[11px] sm:text-xs font-sans text-charcoal-muted w-full shrink-0">
           <HelpCircle className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">

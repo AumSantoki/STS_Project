@@ -24,7 +24,7 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex flex-col gap-6 w-full rounded-2xl border border-warm-sand-border bg-ivory p-6 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
+    <div className="flex flex-col gap-6 w-full rounded-2xl border border-warm-sand-border bg-ivory p-4 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
       {/* Role Header Banner with Smooth Cross-fade on Role Change */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -69,41 +69,44 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
       </AnimatePresence>
 
       {/* Interactive Dossier Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-warm-sand-border/80 pb-2">
+      <div className="flex items-center gap-2 border-b border-warm-sand-border/80 pb-2 overflow-x-auto no-scrollbar max-w-full">
         <button
           onClick={() => setActiveTab("routine")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer shrink-0 ${
             activeTab === "routine"
               ? "bg-burnt-orange text-white shadow-2xs"
               : "bg-ivory-light text-charcoal-muted hover:text-charcoal hover:bg-warm-sand/40"
           }`}
         >
           <Clock className="h-3.5 w-3.5" />
-          <span>EVERYDAY WORK &amp; RESPONSIBILITIES</span>
+          <span className="sm:hidden">ROUTINE</span>
+          <span className="hidden sm:inline">EVERYDAY WORK &amp; RESPONSIBILITIES</span>
         </button>
 
         <button
           onClick={() => setActiveTab("tools")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer shrink-0 ${
             activeTab === "tools"
               ? "bg-burnt-orange text-white shadow-2xs"
               : "bg-ivory-light text-charcoal-muted hover:text-charcoal hover:bg-warm-sand/40"
           }`}
         >
           <Wrench className="h-3.5 w-3.5" />
-          <span>TOOLS &amp; GEAR ({role.toolsAndEquipment.length})</span>
+          <span className="sm:hidden">TOOLS ({role.toolsAndEquipment.length})</span>
+          <span className="hidden sm:inline">TOOLS &amp; GEAR ({role.toolsAndEquipment.length})</span>
         </button>
 
         <button
           onClick={() => setActiveTab("conditions")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer shrink-0 ${
             activeTab === "conditions"
               ? "bg-burnt-orange text-white shadow-2xs"
               : "bg-ivory-light text-charcoal-muted hover:text-charcoal hover:bg-warm-sand/40"
           }`}
         >
           <AlertTriangle className="h-3.5 w-3.5" />
-          <span>WORKING REALITIES &amp; SAFETY</span>
+          <span className="sm:hidden">SAFETY</span>
+          <span className="hidden sm:inline">WORKING REALITIES &amp; SAFETY</span>
         </button>
       </div>
 

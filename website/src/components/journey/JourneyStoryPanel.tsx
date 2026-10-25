@@ -22,9 +22,9 @@ export function JourneyStoryPanel({
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex flex-col justify-between h-full w-full gap-4 p-5 sm:p-6 lg:p-7 rounded-2xl border border-warm-sand-border bg-ivory-light shadow-xs overflow-hidden">
+    <div className="flex flex-col justify-between h-full w-full gap-3 sm:gap-4 p-4 sm:p-5 lg:p-5 xl:p-6 rounded-2xl border border-warm-sand-border bg-ivory-light shadow-xs overflow-hidden">
       {/* Top Section: Stage Identification, What Happens, and Why It Matters with Smooth Text Transitions */}
-      <div className="relative min-h-[250px] sm:min-h-[235px]">
+      <div className="relative min-h-[210px] sm:min-h-[195px] lg:min-h-[190px] xl:min-h-[210px]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={stage.stageNumber}

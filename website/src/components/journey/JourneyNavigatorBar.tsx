@@ -34,20 +34,20 @@ export function JourneyNavigatorBar({
     <div
       role="toolbar"
       aria-label="Journey expedition controls"
-      className="flex flex-wrap items-center justify-between gap-4 p-3 sm:p-4 rounded-2xl border border-warm-sand-border bg-ivory-light/95 shadow-sm backdrop-blur-md"
+      className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 p-2.5 sm:p-4 rounded-2xl border border-warm-sand-border bg-ivory-light/95 shadow-sm backdrop-blur-md"
     >
       {/* Direct Landmark Selector Track */}
       <div
         role="tablist"
         aria-label="Selectable journey stages"
-        className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1"
+        className="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1 max-w-full"
       >
         {TRACEROUTE_STAGES.map((s) => {
           const isSelected = s.stageNumber === activeStageNumber;
           const isCompleted = s.stageNumber < activeStageNumber;
 
           return (
-            <div key={s.id} className="relative">
+            <div key={s.id} className="relative shrink-0">
               <button
                 role="tab"
                 aria-selected={isSelected}
@@ -57,7 +57,7 @@ export function JourneyNavigatorBar({
                 onMouseLeave={() => setHoveredItem(null)}
                 onFocus={() => setHoveredItem(`node-${s.stageNumber}`)}
                 onBlur={() => setHoveredItem(null)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-burnt-orange ${
+                className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-burnt-orange cursor-pointer ${
                   isSelected
                     ? "bg-burnt-orange text-white font-bold shadow-xs scale-102"
                     : isCompleted
@@ -66,7 +66,7 @@ export function JourneyNavigatorBar({
                 }`}
               >
                 <span className="font-bold">0{s.stageNumber}</span>
-                <span className="hidden md:inline text-[11px] font-sans">
+                <span className="hidden lg:inline text-[11px] font-sans">
                   {stageShortTitles[s.stageNumber]}
                 </span>
               </button>
