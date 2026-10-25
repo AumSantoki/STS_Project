@@ -409,8 +409,8 @@ export const HARDWARE_COMPONENTS: HardwareComponent[] = [
       },
       {
         label: "Cooling Efficiency (PUE)",
-        value: "1.10 – 1.25",
-        context: "Power Usage Effectiveness: only 10%–25% extra energy is spent on cooling and power distribution.",
+        value: "1.10–1.20 (Hyperscale) / 1.56 (Global Avg)",
+        context: "Uptime Institute's 2024 survey reports an industry average PUE of 1.56; specialized hyperscale campuses reach 1.10–1.20 using advanced economization.",
       },
       {
         label: "Backup Fuel Reserves",

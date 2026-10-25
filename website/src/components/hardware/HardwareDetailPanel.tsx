@@ -48,6 +48,9 @@ export function HardwareDetailPanel({
 
   const handleStageClick = (stageNumber: number) => {
     if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("select-journey-stage", { detail: stageNumber })
+      );
       const target =
         document.getElementById(`journey-stage-${stageNumber}`) ||
         document.getElementById("journey-section");

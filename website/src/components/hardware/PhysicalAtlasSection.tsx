@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HARDWARE_COMPONENTS } from "@/data/hardwareAtlas";
 import { HardwareSchematicSvg } from "./HardwareSchematicSvg";
 import { HardwareDetailPanel } from "./HardwareDetailPanel";
@@ -37,6 +37,21 @@ export function PhysicalAtlasSection() {
       setActivePartId(null);
     }
   };
+
+  useEffect(() => {
+    const handleSelectHardware = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (
+        customEvent.detail &&
+        HARDWARE_COMPONENTS.some((c) => c.id === customEvent.detail)
+      ) {
+        handleSelectComponent(customEvent.detail);
+      }
+    };
+    window.addEventListener("select-hardware", handleSelectHardware);
+    return () =>
+      window.removeEventListener("select-hardware", handleSelectHardware);
+  }, []);
 
   const handleNextComponent = () => {
     const currentIndex = HARDWARE_COMPONENTS.findIndex(
@@ -79,7 +94,7 @@ export function PhysicalAtlasSection() {
     <section
       id="physical-internet"
       aria-label="The Physical Internet Interactive Hardware Atlas"
-      className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border"
+      className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border scroll-mt-20"
     >
       {/* Anchor targets for deep links */}
       <div id="hardware-atlas" className="scroll-mt-28" />

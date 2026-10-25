@@ -2,14 +2,34 @@
 
 import { useState } from "react";
 import { INCIDENT_SCENARIOS } from "@/data/incidentScenarios";
-import { ArrowRight, ChevronLeft, RotateCcw, AlertOctagon, CheckCircle2, ShieldAlert, Clock, Anchor, Activity, Server } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  RotateCcw,
+  AlertOctagon,
+  CheckCircle2,
+  ShieldAlert,
+  Clock,
+  Anchor,
+  Activity,
+  Server,
+  Layers,
+  UserCheck,
+} from "lucide-react";
 
-export function IncidentTimelineSimulator() {
-  const [activeScenarioId, setActiveScenarioId] = useState<string>(INCIDENT_SCENARIOS[0].id);
+interface IncidentTimelineSimulatorProps {
+  onSelectRole?: (roleId: string) => void;
+}
+
+export function IncidentTimelineSimulator({ onSelectRole }: IncidentTimelineSimulatorProps) {
+  const [activeScenarioId, setActiveScenarioId] = useState<string>(
+    INCIDENT_SCENARIOS[0].id
+  );
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
 
   const scenario =
-    INCIDENT_SCENARIOS.find((s) => s.id === activeScenarioId) || INCIDENT_SCENARIOS[0];
+    INCIDENT_SCENARIOS.find((s) => s.id === activeScenarioId) ||
+    INCIDENT_SCENARIOS[0];
 
   const currentStep = scenario.steps[activeStepIndex] || scenario.steps[0];
   const totalSteps = scenario.steps.length;
@@ -17,6 +37,30 @@ export function IncidentTimelineSimulator() {
   const handleSelectScenario = (id: string) => {
     setActiveScenarioId(id);
     setActiveStepIndex(0);
+  };
+
+  const handleRoleClick = (roleId: string) => {
+    if (onSelectRole) {
+      onSelectRole(roleId);
+    } else if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("select-role", { detail: roleId }));
+      const target = document.getElementById("people-behind");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleHardwareClick = (hardwareId: string) => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("select-hardware", { detail: hardwareId })
+      );
+      const target = document.getElementById("physical-internet");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   const getScenarioIcon = (eventType: string) => {
@@ -46,7 +90,9 @@ export function IncidentTimelineSimulator() {
         </h3>
 
         <p className="text-sm sm:text-base text-charcoal leading-relaxed font-sans">
-          The Internet does not run without failure. When earthquakes rupture undersea lines or heatwaves overwhelm cooling systems, recovery depends on disciplined coordination across physical and software roles.
+          The Internet does not run without failure. When earthquakes rupture
+          undersea lines or heatwaves overwhelm cooling systems, recovery depends
+          on disciplined coordination across physical and software roles.
         </p>
       </div>
 
@@ -73,17 +119,32 @@ export function IncidentTimelineSimulator() {
         })}
       </div>
 
-      {/* Scenario Background Banner */}
-      <div className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 sm:p-5 flex flex-col gap-2">
+      {/* Scenario Background Banner with Hardware Cross-Link */}
+      <div className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 sm:p-5 flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-burnt-orange uppercase">
             <AlertOctagon className="h-4 w-4" />
             <span>REAL-WORLD CASE: {scenario.location}</span>
           </div>
-          <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-burnt-orange/15 text-burnt-orange">
-            {scenario.eventType}
-          </span>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {scenario.affectedHardwareId && (
+              <button
+                onClick={() => handleHardwareClick(scenario.affectedHardwareId!)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-ivory border border-warm-sand-border hover:border-burnt-orange text-charcoal hover:text-burnt-orange transition-all cursor-pointer shadow-2xs"
+              >
+                <Layers className="h-3 w-3 text-burnt-orange" />
+                <span>Hardware: {scenario.affectedHardwareName}</span>
+                <ArrowRight className="h-3 w-3" />
+              </button>
+            )}
+
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-burnt-orange/15 text-burnt-orange">
+              {scenario.eventType}
+            </span>
+          </div>
         </div>
+
         <p className="text-xs sm:text-sm text-charcoal-muted leading-relaxed font-sans">
           {scenario.realWorldBasis}
         </p>
@@ -115,14 +176,26 @@ export function IncidentTimelineSimulator() {
 
         {/* Step Detail Content */}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1">
-            <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
-              LEAD RESPONDING ROLE: {currentStep.leadRole}
-            </span>
-            <h4 className="text-lg sm:text-xl font-extrabold text-charcoal">
-              {currentStep.actionTaken}
-            </h4>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <UserCheck className="h-4 w-4 text-burnt-orange" />
+              <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
+                LEAD RESPONDING ROLE: {currentStep.leadRole}
+              </span>
+            </div>
+
+            <button
+              onClick={() => handleRoleClick(currentStep.roleId)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-ivory border border-warm-sand hover:border-burnt-orange text-charcoal hover:text-burnt-orange transition-all cursor-pointer shadow-2xs"
+            >
+              <span>Inspect Role Dossier</span>
+              <ArrowRight className="h-3 w-3 text-burnt-orange" />
+            </button>
           </div>
+
+          <h4 className="text-lg sm:text-xl font-extrabold text-charcoal">
+            {currentStep.actionTaken}
+          </h4>
 
           <p className="text-sm sm:text-base text-charcoal leading-relaxed font-sans font-normal">
             {currentStep.coordinationDetail}
@@ -130,8 +203,12 @@ export function IncidentTimelineSimulator() {
 
           {/* Tools Deployed in this Step */}
           <div className="flex items-center gap-2 rounded-xl border border-warm-sand-border bg-ivory px-4 py-2.5 text-xs text-charcoal">
-            <span className="font-mono font-bold text-burnt-orange shrink-0">EQUIPMENT DEPLOYED:</span>
-            <span className="font-medium text-charcoal-muted">{currentStep.toolsUsed}</span>
+            <span className="font-mono font-bold text-burnt-orange shrink-0">
+              EQUIPMENT DEPLOYED:
+            </span>
+            <span className="font-medium text-charcoal-muted">
+              {currentStep.toolsUsed}
+            </span>
           </div>
         </div>
 
@@ -148,7 +225,9 @@ export function IncidentTimelineSimulator() {
 
           {activeStepIndex < totalSteps - 1 ? (
             <button
-              onClick={() => setActiveStepIndex((prev) => Math.min(totalSteps - 1, prev + 1))}
+              onClick={() =>
+                setActiveStepIndex((prev) => Math.min(totalSteps - 1, prev + 1))
+              }
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-burnt-orange text-xs sm:text-sm font-bold text-white hover:bg-burnt-orange-hover active:scale-[0.98] transition-all shadow-xs cursor-pointer"
             >
               <span>Next coordination step</span>

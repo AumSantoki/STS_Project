@@ -11,6 +11,8 @@ export const INCIDENT_SCENARIOS: IncidentScenario[] = [
       "On January 15, 2022, the Hunga Tonga-Hunga Ha'apai volcanic eruption triggered devastating tsunamis and underwater mudslides, severing Tonga's sole international submarine fiber optic cable (the Tonga Cable System) at a depth of 1,700 meters.",
     summary:
       "When a transoceanic fiber line breaks, satellites cannot absorb the traffic volume. Restoring connectivity requires coordinating satellite engineers, NOC operators, coastal technicians, and a specialized cable ship navigating through oceanic ash.",
+    affectedHardwareId: "undersea-cables-repeaters",
+    affectedHardwareName: "Undersea Cables & Optical Repeaters",
     steps: [
       {
         stepNumber: 1,
@@ -82,12 +84,14 @@ export const INCIDENT_SCENARIOS: IncidentScenario[] = [
     id: "urban-fiber-cut",
     title: "Metropolitan Fiber Severed by Road Construction",
     subtitle: "The classic 'backhoe fade' and how network teams protect municipal services",
-    eventType: "Subsea Cable Severed",
+    eventType: "Terrestrial Fiber Severed",
     location: "Metropolitan Utility Conduit (Downtown Corridor)",
     realWorldBasis:
       "According to the FCC and ITU, accidental physical excavation strikes ('backhoe fade') represent the single most common cause of terrestrial fiber outages worldwide, occurring thousands of times annually.",
     summary:
       "An unmapped municipal excavator rips through a 432-strand fiber backbone conduit under a busy city avenue, severing connections to hospitals, cellular towers, and thousands of businesses.",
+    affectedHardwareId: "fibre-optic-cables",
+    affectedHardwareName: "Fibre-Optic Cables & Glass Cores",
     steps: [
       {
         stepNumber: 1,
@@ -155,6 +159,8 @@ export const INCIDENT_SCENARIOS: IncidentScenario[] = [
       "In July 2022, extreme heatwaves in the UK and USA caused multiple major cloud data centres (including Google Cloud and Oracle Cloud facilities) to experience cooling system failures, forcing emergency shutdown of compute racks to prevent fire.",
     summary:
       "When external temperatures surge to 42°C, exterior chiller loops overload. Inside, 40,000 servers generating megawatts of heat begin driving room temperatures toward dangerous thermal runaway.",
+    affectedHardwareId: "power-and-cooling",
+    affectedHardwareName: "Data-Centre Power & Cooling Systems",
     steps: [
       {
         stepNumber: 1,

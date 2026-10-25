@@ -153,12 +153,29 @@ export function JourneySection() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeStageNumber, handleReplay, handleSelectStage, isDossierOpen, totalStages]);
 
+  // External Cross-Section Stage Selection Event (from Hardware Atlas)
+  useEffect(() => {
+    const handleSelectJourneyStage = (e: Event) => {
+      const customEvent = e as CustomEvent<number>;
+      if (typeof customEvent.detail === "number") {
+        handleSelectStage(customEvent.detail);
+        const section = document.getElementById("journey-section");
+        if (section && window.innerWidth < 1024) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+    window.addEventListener("select-journey-stage", handleSelectJourneyStage);
+    return () =>
+      window.removeEventListener("select-journey-stage", handleSelectJourneyStage);
+  }, [handleSelectStage]);
+
   return (
     <section
       ref={containerRef}
       id="journey-section"
       aria-label="The Journey of a Single Click"
-      className="relative z-20 bg-ivory border-b border-warm-sand-border"
+      className="relative z-20 bg-ivory border-b border-warm-sand-border scroll-mt-20"
     >
       {/* Anchor targets to ensure all prior links (including old #traceroute) land here */}
       <div id="traceroute" className="scroll-mt-28" />

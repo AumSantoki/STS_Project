@@ -44,7 +44,7 @@ export function IntroSection() {
     <section
       id="pedagogical-context"
       aria-label="Academic Research Context and Roadmap"
-      className="relative z-20 py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory-light border-t border-warm-sand-border text-charcoal"
+      className="relative z-20 py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory-light border-t border-warm-sand-border text-charcoal scroll-mt-20"
     >
       {/* Anchor for backward compatibility */}
       <div id="hidden-network" className="scroll-mt-28" />

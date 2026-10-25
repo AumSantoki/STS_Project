@@ -52,10 +52,12 @@ export interface IncidentScenario {
   id: string;
   title: string;
   subtitle: string;
-  eventType: "Subsea Cable Severed" | "Data Centre Cooling Loss" | "BGP Routing Anomaly";
+  eventType: "Subsea Cable Severed" | "Terrestrial Fiber Severed" | "Data Centre Cooling Loss" | "BGP Routing Anomaly";
   location: string;
   realWorldBasis: string;
   summary: string;
+  affectedHardwareId?: string;
+  affectedHardwareName?: string;
   steps: IncidentStep[];
   outcome: string;
   stsTakeaway: string;

@@ -30,7 +30,7 @@ export function PeopleSection() {
     <section
       id="people-behind"
       aria-label="The People Behind the Internet"
-      className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border"
+      className="relative z-20 py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-ivory border-b border-warm-sand-border scroll-mt-20"
     >
       {/* Anchor for backward compatibility and direct jump */}
       <div id="keeping-running" className="scroll-mt-28" />
@@ -101,7 +101,12 @@ export function PeopleSection() {
         {/* Content Mode 2: Incident Response Simulator */}
         {activeMode === "incidents" && (
           <div className="animate-fadeIn">
-            <IncidentTimelineSimulator />
+            <IncidentTimelineSimulator
+              onSelectRole={(roleId) => {
+                setActiveRoleId(roleId);
+                setActiveMode("roles");
+              }}
+            />
           </div>
         )}
 
