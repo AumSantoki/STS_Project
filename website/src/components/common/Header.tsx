@@ -33,10 +33,16 @@ export function Header() {
           {"//"} THE JOURNEY
         </a>
         <a
+          href="#people-behind"
+          className="text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
+        >
+          {"//"} THE PEOPLE
+        </a>
+        <a
           href="#pedagogical-context"
           className="text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200 hidden sm:inline"
         >
-          {"//"} CONTEXT
+          {"//"} RESEARCH
         </a>
         <div className="flex items-center gap-1.5 rounded-full border border-warm-sand-border bg-ivory-light px-3 py-1 text-[11px] font-mono text-charcoal shadow-2xs">
           <span className="relative flex h-2 w-2">

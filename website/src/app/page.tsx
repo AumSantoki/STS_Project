@@ -1,6 +1,7 @@
 import { Header } from "@/components/common/Header";
 import { HeroSection } from "@/components/hero/HeroSection";
 import { JourneySection } from "@/components/journey/JourneySection";
+import { PeopleSection } from "@/components/people/PeopleSection";
 import { IntroSection } from "@/components/intro/IntroSection";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <main id="main-content" className="flex flex-col min-h-screen">
         <HeroSection />
         <JourneySection />
+        <PeopleSection />
         <IntroSection />
       </main>
     </>
