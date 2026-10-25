@@ -104,11 +104,11 @@ export function HeroSection() {
               onMouseLeave={() => setHoveredAction(null)}
               onFocus={() => setHoveredAction("explore-journey")}
               onBlur={() => setHoveredAction(null)}
-              aria-label="Explore the journey of a single click"
+              aria-label="Start the journey of a single click"
               className="group relative inline-flex items-center justify-center gap-3 rounded-xl px-8 py-4 text-base sm:text-lg font-bold tracking-wide text-white bg-burnt-orange hover:bg-burnt-orange-hover active:scale-[0.99] transition-all duration-200 shadow-md hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange"
             >
               <Sparkles className="h-5 w-5 text-muted-gold animate-pulse" />
-              <span>Explore the journey</span>
+              <span>Start journey</span>
               <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
 

@@ -4,19 +4,22 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TRACEROUTE_STAGES } from "@/data/tracerouteStages";
-import { ScrollJourneyCanvas } from "./ScrollJourneyCanvas";
-import { JourneyNarrativePanel } from "./JourneyNarrativePanel";
+import { PanoramicWorldSvg } from "./PanoramicWorldSvg";
+import { JourneyStoryPanel } from "./JourneyStoryPanel";
 import { JourneyNavigatorBar } from "./JourneyNavigatorBar";
+import { EngineeringDossierDrawer } from "./EngineeringDossierDrawer";
 import { HelpCircle } from "lucide-react";
 
 export function JourneySection() {
   const [activeStageNumber, setActiveStageNumber] = useState<number>(1);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [cameraX, setCameraX] = useState<number>(0);
+  const [isDossierOpen, setIsDossierOpen] = useState<boolean>(false);
+  const [isAnimatingDirectly, setIsAnimatingDirectly] = useState<boolean>(false);
   const totalStages = TRACEROUTE_STAGES.length;
 
   const containerRef = useRef<HTMLElement | null>(null);
   const pinnedWrapperRef = useRef<HTMLDivElement | null>(null);
-  const canvasRef = useRef<HTMLDivElement | null>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   const currentStage =
@@ -36,17 +39,7 @@ export function JourneySection() {
     const mm = gsap.matchMedia();
 
     // Desktop Experience: Pinned Scroll-Scrub Timelines
-    mm.add("(min-width: 768px)", () => {
-      // Initialize Scene Opacities & Positions
-      gsap.set("#scene-1", { autoAlpha: 1, scale: 1, x: 0, y: 0 });
-      gsap.set(["#scene-2", "#scene-3", "#scene-4", "#scene-5", "#scene-6"], {
-        autoAlpha: 0,
-        scale: 0.96,
-        x: 0,
-        y: 0,
-      });
-
-      // Master scrubbed timeline
+    mm.add("(min-width: 1024px)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -58,6 +51,9 @@ export function JourneySection() {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             setScrollProgress(self.progress);
+            // Camera sweeps from 0 to -5000 across the 6000px world
+            setCameraX(-self.progress * 5000);
+
             const computedStage = Math.min(
               totalStages,
               Math.max(1, Math.floor(self.progress * (totalStages - 0.001)) + 1)
@@ -68,127 +64,10 @@ export function JourneySection() {
       });
 
       scrollTriggerRef.current = tl.scrollTrigger || null;
-
-      // STAGE 1 -> 2: Device RF to Municipal Street Conduit
-      tl.to(
-        "#scene-1",
-        {
-          autoAlpha: 0,
-          x: -70,
-          scale: 0.94,
-          ease: "power2.inOut",
-          duration: 0.9,
-        },
-        0.2
-      )
-        .fromTo(
-          "#scene-2",
-          { autoAlpha: 0, x: 70, scale: 0.94 },
-          { autoAlpha: 1, x: 0, scale: 1, ease: "power2.out", duration: 0.9 },
-          0.35
-        )
-        .fromTo(
-          "#fiber-beam-2",
-          { strokeDasharray: 640, strokeDashoffset: 640 },
-          { strokeDashoffset: 0, duration: 0.6, ease: "power1.inOut" },
-          0.6
-        );
-
-      // STAGE 2 -> 3: Street Conduit to Carrier IXP Colocation
-      tl.to(
-        "#scene-2",
-        {
-          autoAlpha: 0,
-          y: -60,
-          scale: 0.94,
-          ease: "power2.inOut",
-          duration: 0.9,
-        },
-        1.2
-      )
-        .fromTo(
-          "#scene-3",
-          { autoAlpha: 0, y: 60, scale: 0.94 },
-          { autoAlpha: 1, y: 0, scale: 1, ease: "power2.out", duration: 0.9 },
-          1.35
-        )
-        .fromTo(
-          ["#ixp-patch-1", "#ixp-patch-2"],
-          { strokeDasharray: 250, strokeDashoffset: 250 },
-          { strokeDashoffset: 0, duration: 0.6, stagger: 0.15, ease: "power1.inOut" },
-          1.6
-        );
-
-      // STAGE 3 -> 4: Carrier IXP to Shoreline Cable Landing Station
-      tl.to(
-        "#scene-3",
-        {
-          autoAlpha: 0,
-          x: -70,
-          scale: 0.94,
-          ease: "power2.inOut",
-          duration: 0.9,
-        },
-        2.2
-      )
-        .fromTo(
-          "#scene-4",
-          { autoAlpha: 0, x: 70, scale: 0.94 },
-          { autoAlpha: 1, x: 0, scale: 1, ease: "power2.out", duration: 0.9 },
-          2.35
-        )
-        .fromTo(
-          "#landing-cable-path",
-          { strokeDasharray: 500, strokeDashoffset: 500 },
-          { strokeDashoffset: 0, duration: 0.7, ease: "power1.inOut" },
-          2.6
-        );
-
-      // STAGE 4 -> 5: Shoreline CLS to Abyssal Seabed (-4,200m)
-      tl.to(
-        "#scene-4",
-        {
-          autoAlpha: 0,
-          y: -60,
-          scale: 0.94,
-          ease: "power2.inOut",
-          duration: 0.9,
-        },
-        3.2
-      )
-        .fromTo(
-          "#scene-5",
-          { autoAlpha: 0, y: 60, scale: 0.94 },
-          { autoAlpha: 1, y: 0, scale: 1, ease: "power2.out", duration: 0.9 },
-          3.35
-        )
-        .fromTo(
-          "#abyss-cable-path",
-          { strokeDasharray: 700, strokeDashoffset: 700 },
-          { strokeDashoffset: 0, duration: 0.7, ease: "power1.inOut" },
-          3.6
-        );
-
-      // STAGE 5 -> 6: Abyssal Seabed to Hyperscale Cloud Center
-      tl.to(
-        "#scene-5",
-        {
-          autoAlpha: 0,
-          scale: 1.05,
-          ease: "power2.inOut",
-          duration: 0.9,
-        },
-        4.2
-      ).fromTo(
-        "#scene-6",
-        { autoAlpha: 0, scale: 0.94 },
-        { autoAlpha: 1, scale: 1, ease: "power2.out", duration: 0.9 },
-        4.35
-      );
     });
 
-    // Mobile Viewport: Direct navigation mode (no pin trap)
-    mm.add("(max-width: 767px)", () => {
+    // Mobile / Tablet Viewport: Natural vertical flow (no pin trap)
+    mm.add("(max-width: 1023px)", () => {
       scrollTriggerRef.current = null;
     });
 
@@ -198,39 +77,32 @@ export function JourneySection() {
     };
   }, [totalStages]);
 
-  // Mobile Scene Visibility Handler
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      for (let i = 1; i <= totalStages; i++) {
-        const el = document.getElementById(`scene-${i}`);
-        if (el) {
-          if (i === activeStageNumber) {
-            gsap.to(el, { autoAlpha: 1, duration: 0.35, overwrite: "auto" });
-          } else {
-            gsap.to(el, { autoAlpha: 0, duration: 0.25, overwrite: "auto" });
-          }
-        }
-      }
-    }
-  }, [activeStageNumber, totalStages]);
-
   // ==========================================================================
-  // Direct Selection Handlers (Synced to Scroll Position)
+  // Direct Stage Selection Handlers (Synchronized to Scroll Position)
   // ==========================================================================
   const handleSelectStage = useCallback(
     (stageNum: number) => {
       if (stageNum < 1 || stageNum > totalStages) return;
+
       setActiveStageNumber(stageNum);
+      const targetProgress = (stageNum - 1) / (totalStages - 1);
+      setScrollProgress(targetProgress);
+      setCameraX(-targetProgress * 5000);
+
+      setIsAnimatingDirectly(true);
 
       const st = scrollTriggerRef.current;
-      if (st && window.innerWidth >= 768) {
-        const targetProgress = (stageNum - 1) / (totalStages - 1);
+      if (st && window.innerWidth >= 1024) {
         const targetScroll = st.start + targetProgress * (st.end - st.start);
         window.scrollTo({
           top: targetScroll,
           behavior: "smooth",
         });
       }
+
+      setTimeout(() => {
+        setIsAnimatingDirectly(false);
+      }, 700);
     },
     [totalStages]
   );
@@ -238,7 +110,7 @@ export function JourneySection() {
   const handleReplay = useCallback(() => {
     handleSelectStage(1);
     const st = scrollTriggerRef.current;
-    if (!st || window.innerWidth < 768) {
+    if (!st || window.innerWidth < 1024) {
       const section = document.getElementById("journey-section");
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
@@ -251,7 +123,8 @@ export function JourneySection() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
         document.activeElement instanceof HTMLInputElement ||
-        document.activeElement instanceof HTMLTextAreaElement
+        document.activeElement instanceof HTMLTextAreaElement ||
+        isDossierOpen
       ) {
         return;
       }
@@ -278,7 +151,7 @@ export function JourneySection() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeStageNumber, handleReplay, handleSelectStage, totalStages]);
+  }, [activeStageNumber, handleReplay, handleSelectStage, isDossierOpen, totalStages]);
 
   return (
     <section
@@ -291,32 +164,30 @@ export function JourneySection() {
       <div id="traceroute" className="scroll-mt-28" />
       <div id="journey-of-data" className="scroll-mt-28" />
 
-      {/* Pinned Viewport Container */}
+      {/* Pinned Viewport Container (Locks in place on desktop while scrolling) */}
       <div
         ref={pinnedWrapperRef}
-        className="w-full min-h-screen py-8 sm:py-10 px-4 sm:px-8 md:px-12 lg:px-20 flex flex-col justify-between max-w-6xl mx-auto overflow-visible"
+        className="w-full min-h-screen py-6 sm:py-8 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-between max-w-7xl mx-auto"
       >
-        <div className="flex flex-col gap-6 w-full">
-          {/* Section Title & Story Framing */}
-          <div className="flex flex-col gap-2 max-w-3xl">
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-burnt-orange" />
-              <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
-                INTERACTIVE EXPEDITION // 06 PHYSICAL STAGES
-              </span>
+        {/* Top Header & Navigation Scrubber */}
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-burnt-orange" />
+                <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
+                  INTERACTIVE EXPEDITION // 06 PHYSICAL STAGES
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-charcoal">
+                The Journey of a Single Click:{" "}
+                <span className="text-burnt-orange">Traversing Earth, Sea, and Silicon</span>
+              </h2>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-charcoal leading-tight">
-              The Journey of a Single Click:{" "}
-              <span className="text-burnt-orange">
-                Traversing Earth, Sea, and Silicon
-              </span>
-            </h2>
-
-            <p className="text-sm sm:text-base text-charcoal-muted leading-relaxed font-sans">
-              Follow a single data packet as it leaves your antenna, travels through municipal glass conduits, 
-              crosses the abyssal seabed, and triggers compute engines inside multi-megawatt facilities.
-            </p>
+            <div className="text-xs font-mono text-charcoal-muted shrink-0 hidden sm:block">
+              PHYSICAL LAYER SIMULATION
+            </div>
           </div>
 
           {/* Minimalist Journey Controls HUD with scrub bar */}
@@ -327,19 +198,33 @@ export function JourneySection() {
             onReplay={handleReplay}
             scrollProgress={scrollProgress}
           />
+        </div>
 
-          {/* Continuous Transformation SVG Canvas */}
-          <ScrollJourneyCanvas
-            canvasRef={canvasRef}
-            activeStageNumber={activeStageNumber}
-          />
+        {/* Coherent Scene: Balanced Side-by-Side Storyboard & Visual Scene */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1 my-4">
+          {/* Left Column: Essential Explanation & Action Controls (~42% width) */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <JourneyStoryPanel
+              stage={currentStage}
+              totalStages={totalStages}
+              onSelectStage={handleSelectStage}
+              onReplay={handleReplay}
+              onOpenDossier={() => setIsDossierOpen(true)}
+            />
+          </div>
 
-          {/* Narrative & Progressive Disclosure Dossier */}
-          <JourneyNarrativePanel stage={currentStage} />
+          {/* Right Column: Dominant Panoramic World Viewport (~58% width) */}
+          <div className="lg:col-span-7 flex flex-col justify-center min-h-[360px] lg:min-h-[480px]">
+            <PanoramicWorldSvg
+              cameraX={cameraX}
+              packetProgress={scrollProgress}
+              isAnimatingDirectly={isAnimatingDirectly}
+            />
+          </div>
         </div>
 
         {/* Pedagogical Integrity Note */}
-        <div className="mt-6 flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 text-xs font-sans text-charcoal-muted w-full">
+        <div className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 text-xs font-sans text-charcoal-muted w-full">
           <HelpCircle className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">
@@ -347,11 +232,18 @@ export function JourneySection() {
             </strong>
             <span>
               This interactive journey illustrates an intercontinental request (e.g. streaming a resource hosted overseas). 
-              In everyday digital life, domestic or local traffic terminates at nearby regional Edge CDN nodes without touching Cable Landing Stations or crossing submarine oceans.
+              Domestic or local traffic terminates at nearby regional Edge CDN nodes without touching Cable Landing Stations or crossing submarine oceans.
             </span>
           </div>
         </div>
       </div>
+
+      {/* Accessible Slide-Over Engineering & Workforce Dossier Drawer */}
+      <EngineeringDossierDrawer
+        isOpen={isDossierOpen}
+        onClose={() => setIsDossierOpen(false)}
+        stage={currentStage}
+      />
     </section>
   );
 }
