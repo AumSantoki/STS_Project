@@ -2,6 +2,7 @@
 
 import { TracerouteStage } from "@/types/traceroute";
 import { ArrowRight, ChevronLeft, Cpu, ExternalLink, RotateCcw } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 interface JourneyStoryPanelProps {
   stage: TracerouteStage;
@@ -18,43 +19,59 @@ export function JourneyStoryPanel({
   onReplay,
   onOpenDossier,
 }: JourneyStoryPanelProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div className="flex flex-col justify-between h-full w-full gap-4 p-5 sm:p-6 lg:p-7 rounded-2xl border border-warm-sand-border bg-ivory-light shadow-xs">
-      {/* Top Section: Stage Identification, What Happens, and Why It Matters */}
-      <div className="flex flex-col gap-3.5">
-        {/* Stage Number & Clear Title */}
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
-            <span className="text-xs font-mono font-bold tracking-wider text-burnt-orange uppercase">
-              JOURNEY STAGE 0{stage.stageNumber} OF 0{totalStages}
-            </span>
-          </div>
+    <div className="flex flex-col justify-between h-full w-full gap-4 p-5 sm:p-6 lg:p-7 rounded-2xl border border-warm-sand-border bg-ivory-light shadow-xs overflow-hidden">
+      {/* Top Section: Stage Identification, What Happens, and Why It Matters with Smooth Text Transitions */}
+      <div className="relative min-h-[250px] sm:min-h-[235px]">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={stage.stageNumber}
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.24,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="flex flex-col gap-3.5"
+          >
+            {/* Stage Number & Clear Title */}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
+                <span className="text-xs font-mono font-bold tracking-wider text-burnt-orange uppercase">
+                  JOURNEY STAGE 0{stage.stageNumber} OF 0{totalStages}
+                </span>
+              </div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight leading-tight">
-            {stage.title}
-          </h3>
-        </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight leading-tight">
+                {stage.title}
+              </h3>
+            </div>
 
-        {/* What Happens: 2 to 4 short sentences in everyday English */}
-        <div className="flex flex-col gap-1">
-          <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
-            WHAT HAPPENS
-          </span>
-          <p className="text-sm sm:text-[15px] lg:text-base text-charcoal leading-relaxed font-sans font-normal">
-            {stage.physicalExplanation}
-          </p>
-        </div>
+            {/* What Happens: 2 to 4 short sentences in everyday English */}
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
+                WHAT HAPPENS
+              </span>
+              <p className="text-sm sm:text-[15px] lg:text-base text-charcoal leading-relaxed font-sans font-normal">
+                {stage.physicalExplanation}
+              </p>
+            </div>
 
-        {/* Why It Matters: 1 short sentence connecting to everyday use */}
-        <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border/80 bg-ivory p-3 text-xs sm:text-sm text-charcoal leading-snug">
-          <strong className="text-[11px] font-mono font-bold text-burnt-orange uppercase">
-            WHY IT MATTERS
-          </strong>
-          <span className="text-charcoal-muted font-normal">
-            {stage.whyItMatters}
-          </span>
-        </div>
+            {/* Why It Matters: 1 short sentence connecting to everyday use */}
+            <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border/80 bg-ivory p-3 text-xs sm:text-sm text-charcoal leading-snug">
+              <strong className="text-[11px] font-mono font-bold text-burnt-orange uppercase">
+                WHY IT MATTERS
+              </strong>
+              <span className="text-charcoal-muted font-normal">
+                {stage.whyItMatters}
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Bottom Section: Step Controls & Optional Technical Details Drawer Trigger */}
