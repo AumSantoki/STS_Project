@@ -9,13 +9,47 @@ export function Header() {
   const shouldReduceMotion = useReducedMotion();
 
   const handleNavigate = useCallback(
-    (href: string) => {
-      setIsOpen(false);
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
       const id = href.replace("#", "");
       const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
-      }
+
+      // Close mobile menu immediately so the UI responds
+      setIsOpen(false);
+
+      if (!target) return;
+
+      // Scroll smoothly to target with fixed header offset.
+      // We decouple the scroll execution from the menu toggle via requestAnimationFrame + timeout
+      // so mobile touch event completion and React state re-render do not interrupt or cancel smooth scrolling.
+      const performScroll = () => {
+        const headerOffset = 68; // Height of fixed header (56px) + 12px breathing room
+        const scrollY =
+          window.scrollY ??
+          window.pageYOffset ??
+          document.documentElement.scrollTop ??
+          0;
+        const targetTop =
+          target.getBoundingClientRect().top + scrollY - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: shouldReduceMotion ? "auto" : "smooth",
+        });
+
+        // Update URL hash cleanly in history
+        try {
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, "", href);
+          }
+        } catch {
+          // Fallback if pushState is restricted
+        }
+      };
+
+      requestAnimationFrame(() => {
+        setTimeout(performScroll, 30);
+      });
     },
     [shouldReduceMotion]
   );
@@ -72,10 +106,7 @@ export function Header() {
         >
           <a
             href="#journey-section"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate("#journey-section");
-            }}
+            onClick={(e) => handleNavigate(e, "#journey-section")}
             className="text-[11px] sm:text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
           >
             <span className="hidden sm:inline">{"//"} </span>
@@ -83,10 +114,7 @@ export function Header() {
           </a>
           <a
             href="#physical-internet"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate("#physical-internet");
-            }}
+            onClick={(e) => handleNavigate(e, "#physical-internet")}
             className="text-[11px] sm:text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
           >
             <span className="hidden sm:inline">{"//"} </span>
@@ -94,10 +122,7 @@ export function Header() {
           </a>
           <a
             href="#people-behind"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate("#people-behind");
-            }}
+            onClick={(e) => handleNavigate(e, "#people-behind")}
             className="text-[11px] sm:text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
           >
             <span className="hidden sm:inline">{"//"} </span>
@@ -105,10 +130,7 @@ export function Header() {
           </a>
           <a
             href="#pedagogical-context"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate("#pedagogical-context");
-            }}
+            onClick={(e) => handleNavigate(e, "#pedagogical-context")}
             className="text-[11px] sm:text-xs font-mono font-medium text-charcoal-muted hover:text-burnt-orange transition-colors duration-200"
           >
             <span className="hidden sm:inline">{"//"} </span>
@@ -116,10 +138,7 @@ export function Header() {
           </a>
           <a
             href="#exploration-dossiers"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate("#exploration-dossiers");
-            }}
+            onClick={(e) => handleNavigate(e, "#exploration-dossiers")}
             aria-label="Open exploration research dossiers"
             className="hidden lg:flex items-center gap-1.5 rounded-full border border-warm-sand-border bg-ivory-light px-3 py-1 text-[11px] font-mono text-charcoal hover:border-burnt-orange/50 hover:bg-white transition-all shadow-2xs cursor-pointer"
           >
@@ -150,28 +169,25 @@ export function Header() {
         </button>
       </div>
 
-      {/* Mobile Collapsible Navigation Panel */}
+      {/* Mobile Collapsible Navigation Panel (Positioned as absolute dropdown so header height never mutates) */}
       <AnimatePresence>
         {isOpen && (
           <motion.nav
             id="mobile-navigation"
             aria-label="Mobile Navigation"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.22,
+              duration: shouldReduceMotion ? 0 : 0.18,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="md:hidden overflow-hidden border-t border-warm-sand-border/80 bg-ivory/98 backdrop-blur-xl px-3 sm:px-4 py-3 shadow-md flex flex-col gap-1.5"
+            className="md:hidden absolute top-full left-0 right-0 overflow-hidden border-b border-warm-sand-border/80 bg-ivory/98 backdrop-blur-xl px-3 sm:px-4 py-3 shadow-lg flex flex-col gap-1.5"
           >
             {/* 1. Journey */}
             <a
               href="#journey-section"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigate("#journey-section");
-              }}
+              onClick={(e) => handleNavigate(e, "#journey-section")}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-transparent hover:border-warm-sand-border hover:bg-ivory-light text-xs font-mono font-bold text-charcoal transition-all cursor-pointer"
             >
               <span className="flex items-center gap-2">
@@ -186,10 +202,7 @@ export function Header() {
             {/* 2. Hardware Atlas */}
             <a
               href="#physical-internet"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigate("#physical-internet");
-              }}
+              onClick={(e) => handleNavigate(e, "#physical-internet")}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-transparent hover:border-warm-sand-border hover:bg-ivory-light text-xs font-mono font-bold text-charcoal transition-all cursor-pointer"
             >
               <span className="flex items-center gap-2">
@@ -204,10 +217,7 @@ export function Header() {
             {/* 3. The People */}
             <a
               href="#people-behind"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigate("#people-behind");
-              }}
+              onClick={(e) => handleNavigate(e, "#people-behind")}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-transparent hover:border-warm-sand-border hover:bg-ivory-light text-xs font-mono font-bold text-charcoal transition-all cursor-pointer"
             >
               <span className="flex items-center gap-2">
@@ -222,10 +232,7 @@ export function Header() {
             {/* 4. Research */}
             <a
               href="#pedagogical-context"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigate("#pedagogical-context");
-              }}
+              onClick={(e) => handleNavigate(e, "#pedagogical-context")}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-transparent hover:border-warm-sand-border hover:bg-ivory-light text-xs font-mono font-bold text-charcoal transition-all cursor-pointer"
             >
               <span className="flex items-center gap-2">
@@ -240,10 +247,7 @@ export function Header() {
             {/* 5. Research Dossier */}
             <a
               href="#exploration-dossiers"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavigate("#exploration-dossiers");
-              }}
+              onClick={(e) => handleNavigate(e, "#exploration-dossiers")}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-warm-sand-border/70 bg-ivory-light hover:bg-white hover:border-burnt-orange/50 text-xs font-mono font-bold text-charcoal transition-all cursor-pointer shadow-2xs mt-0.5"
             >
               <span className="flex items-center gap-2">
