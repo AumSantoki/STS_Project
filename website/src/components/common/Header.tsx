@@ -10,46 +10,24 @@ export function Header() {
 
   const handleNavigate = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      e.preventDefault();
-      const id = href.replace("#", "");
-      const target = document.getElementById(id);
-
       // Close mobile menu immediately so the UI responds
       setIsOpen(false);
 
+      const id = href.replace("#", "");
+      const target = document.getElementById(id);
       if (!target) return;
 
-      // Scroll smoothly to target with fixed header offset.
-      // We decouple the scroll execution from the menu toggle via requestAnimationFrame + timeout
-      // so mobile touch event completion and React state re-render do not interrupt or cancel smooth scrolling.
-      const performScroll = () => {
-        const headerOffset = 68; // Height of fixed header (56px) + 12px breathing room
-        const scrollY =
-          window.scrollY ??
-          window.pageYOffset ??
-          document.documentElement.scrollTop ??
-          0;
-        const targetTop =
-          target.getBoundingClientRect().top + scrollY - headerOffset;
-
-        window.scrollTo({
-          top: Math.max(0, targetTop),
+      // If the current URL hash already matches the destination, browsers treat native
+      // anchor clicks as a no-op and will not scroll. In this repeat-click case, force scroll:
+      if (typeof window !== "undefined" && window.location.hash === href) {
+        e.preventDefault();
+        target.scrollIntoView({
           behavior: shouldReduceMotion ? "auto" : "smooth",
         });
-
-        // Update URL hash cleanly in history
-        try {
-          if (window.history && window.history.pushState) {
-            window.history.pushState(null, "", href);
-          }
-        } catch {
-          // Fallback if pushState is restricted
-        }
-      };
-
-      requestAnimationFrame(() => {
-        setTimeout(performScroll, 30);
-      });
+      }
+      // Otherwise, allow native anchor navigation to execute cleanly without e.preventDefault().
+      // This prevents mobile WebKit/Blink scroll-cancellation bugs, lets the browser compositor
+      // perform native smooth scrolling, updates the URL hash, and honors CSS scroll-margin-top.
     },
     [shouldReduceMotion]
   );
