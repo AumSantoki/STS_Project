@@ -16,7 +16,7 @@ import {
   Layers,
   UserCheck,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 
 interface IncidentTimelineSimulatorProps {
   onSelectRole?: (roleId: string) => void;
@@ -30,6 +30,50 @@ export function IncidentTimelineSimulator({
   );
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const shouldReduceMotion = useReducedMotion();
+
+  // Consistent editorial deceleration curve
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
+
+  const stepContainerVariants: Variants = {
+    initial: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.035,
+        delayChildren: shouldReduceMotion ? 0 : 0.01,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const stepItemVariants: Variants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 6,
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.22,
+        ease: editorialEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : -5,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
 
   const scenario =
     INCIDENT_SCENARIOS.find((s) => s.id === activeScenarioId) ||
@@ -127,10 +171,13 @@ export function IncidentTimelineSimulator({
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={`${scenario.id}-banner`}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 4 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.22,
+            ease: editorialEase,
+          }}
           className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 sm:p-5 flex flex-col gap-3"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -192,16 +239,16 @@ export function IncidentTimelineSimulator({
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${scenario.id}-step-${currentStep.stepNumber}`}
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-              transition={{
-                duration: shouldReduceMotion ? 0 : 0.22,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              variants={stepContainerVariants}
+              initial="initial"
+              animate="enter"
+              exit="exit"
               className="flex flex-col gap-4"
             >
-              <div className="flex flex-wrap items-center justify-between gap-2">
+              <motion.div
+                variants={stepItemVariants}
+                className="flex flex-wrap items-center justify-between gap-2"
+              >
                 <div className="flex items-center gap-2">
                   <UserCheck className="h-4 w-4 text-burnt-orange" />
                   <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
@@ -216,25 +263,34 @@ export function IncidentTimelineSimulator({
                   <span>Inspect Role Dossier</span>
                   <ArrowRight className="h-3 w-3 text-burnt-orange" />
                 </button>
-              </div>
+              </motion.div>
 
-              <h4 className="text-lg sm:text-xl font-extrabold text-charcoal">
+              <motion.h4
+                variants={stepItemVariants}
+                className="text-lg sm:text-xl font-extrabold text-charcoal"
+              >
                 {currentStep.actionTaken}
-              </h4>
+              </motion.h4>
 
-              <p className="text-sm sm:text-base text-charcoal leading-relaxed font-sans font-normal">
+              <motion.p
+                variants={stepItemVariants}
+                className="text-sm sm:text-base text-charcoal leading-relaxed font-sans font-normal"
+              >
                 {currentStep.coordinationDetail}
-              </p>
+              </motion.p>
 
               {/* Tools Deployed in this Step */}
-              <div className="flex items-center gap-2 rounded-xl border border-warm-sand-border bg-ivory px-4 py-2.5 text-xs text-charcoal">
+              <motion.div
+                variants={stepItemVariants}
+                className="flex items-center gap-2 rounded-xl border border-warm-sand-border bg-ivory px-4 py-2.5 text-xs text-charcoal"
+              >
                 <span className="font-mono font-bold text-burnt-orange shrink-0">
                   EQUIPMENT DEPLOYED:
                 </span>
                 <span className="font-medium text-charcoal-muted">
                   {currentStep.toolsUsed}
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -274,14 +330,17 @@ export function IncidentTimelineSimulator({
         </div>
       </div>
 
-      {/* Final Outcome & STS Takeaway */}
+      {/* Final Outcome & Key Takeaway */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={`${scenario.id}-outcome`}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.22,
+            ease: editorialEase,
+          }}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <div className="rounded-xl border border-sage/40 bg-sage/10 p-4 sm:p-5 flex flex-col gap-1.5">
@@ -297,7 +356,7 @@ export function IncidentTimelineSimulator({
           <div className="rounded-xl border border-burnt-orange/30 bg-burnt-orange/5 p-4 sm:p-5 flex flex-col gap-1.5">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-burnt-orange uppercase">
               <ShieldAlert className="h-4 w-4 text-burnt-orange" />
-              <span>STS TAKEAWAY</span>
+              <span>SYSTEMIC TAKEAWAY</span>
             </div>
             <p className="text-xs sm:text-sm text-charcoal leading-relaxed font-sans">
               {scenario.stsTakeaway}

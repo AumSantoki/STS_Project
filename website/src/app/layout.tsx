@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     "Internet infrastructure",
     "Subsea cables",
     "Data centres",
-    "STS",
-    "Science Technology Society",
     "Physical internet",
     "Network engineering",
+    "Telecommunications infrastructure",
+    "Internet routing",
   ],
   authors: [{ name: "Behind the Screen Project Team" }],
 };

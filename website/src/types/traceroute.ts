@@ -1,6 +1,6 @@
 /**
  * Strongly typed data contracts for the Physical Traceroute educational experience.
- * Grounded directly in HM216 Science, Technology, and Society (STS) research documents.
+ * Grounded directly in Physical Internet Infrastructure research documentation.
  */
 
 export interface HardwareSpec {

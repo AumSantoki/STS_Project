@@ -127,7 +127,7 @@ export function HeroSection() {
           <a
             href="#pedagogical-context"
             onClick={handleScrollTo("pedagogical-context")}
-            aria-label="Review STS pedagogical context and research methodology"
+            aria-label="Review research context and methodology"
             className="group inline-flex items-center justify-center gap-2 rounded-xl border border-warm-sand-border bg-ivory-light px-5 sm:px-6 py-3.5 sm:py-4 text-sm sm:text-base font-semibold text-charcoal hover:border-burnt-orange/50 hover:bg-white active:scale-[0.99] transition-all duration-200 shadow-2xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burnt-orange cursor-pointer"
           >
             <Compass className="h-4 w-4 text-burnt-orange transition-transform duration-300 group-hover:rotate-45" />

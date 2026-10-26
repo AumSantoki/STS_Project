@@ -1,5 +1,7 @@
 "use client";
 
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+
 interface HardwareSchematicSvgProps {
   componentId: string;
   activePartId: string | null;
@@ -11,6 +13,9 @@ export function HardwareSchematicSvg({
   activePartId,
   onSelectPart,
 }: HardwareSchematicSvgProps) {
+  const shouldReduceMotion = useReducedMotion();
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
+
   return (
     <div className="relative w-full h-[280px] sm:h-[360px] lg:h-[430px] rounded-2xl border border-warm-sand-border bg-ivory-light overflow-hidden shadow-inner flex items-center justify-center select-none p-2 sm:p-4">
       {/* Background Architectural Grid Coordinate Texture */}
@@ -28,13 +33,26 @@ export function HardwareSchematicSvg({
         </span>
       </div>
 
-      <svg
-        className="w-full h-full"
-        viewBox="0 0 600 380"
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      {/* Smooth, restrained diagram transition between hardware categories */}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={componentId}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.985 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.985 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.18,
+            ease: editorialEase,
+          }}
+          className="w-full h-full flex items-center justify-center"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 600 380"
+            preserveAspectRatio="xMidYMid meet"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
         <defs>
           <filter id="hwGlow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -679,7 +697,9 @@ export function HardwareSchematicSvg({
             </g>
           </g>
         )}
-      </svg>
+          </svg>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

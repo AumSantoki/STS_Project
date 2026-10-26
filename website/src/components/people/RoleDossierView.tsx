@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   MapPin,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 
 interface RoleDossierViewProps {
   role: ProfessionalRole;
@@ -23,48 +23,132 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
   );
   const shouldReduceMotion = useReducedMotion();
 
+  // Consistent editorial deceleration curve
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
+
+  const headerContainerVariants: Variants = {
+    initial: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.035,
+        delayChildren: shouldReduceMotion ? 0 : 0.01,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const headerItemVariants: Variants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 6,
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.24,
+        ease: editorialEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : -5,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const listContainerVariants: Variants = {
+    initial: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.03,
+        delayChildren: shouldReduceMotion ? 0 : 0.01,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.12,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const listItemVariants: Variants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 5,
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.22,
+        ease: editorialEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.12,
+        ease: editorialEase,
+      },
+    },
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full rounded-2xl border border-warm-sand-border bg-ivory p-4 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
-      {/* Role Header Banner with Smooth Cross-fade on Role Change */}
+      {/* Role Header Banner with Staggered Hierarchy (Profile -> Title -> Mission & Domain) */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={role.id}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.22,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-warm-sand-border"
+          variants={headerContainerVariants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          className="flex flex-col gap-4 pb-6 border-b border-warm-sand-border"
         >
-          <div className="flex flex-col gap-2 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
-              <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
-                PROFESSIONAL PROFILE 0{role.roleNumber} {"//"} {role.category.toUpperCase()}
-              </span>
-            </div>
+          {/* 1. Profile information */}
+          <motion.div variants={headerItemVariants} className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
+            <span className="text-xs font-mono font-bold tracking-widest text-burnt-orange uppercase">
+              PROFESSIONAL PROFILE 0{role.roleNumber} {"//"} {role.category.toUpperCase()}
+            </span>
+          </motion.div>
 
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
-              {role.title}
-            </h3>
+          {/* 2. Role Title */}
+          <motion.h3 variants={headerItemVariants} className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
+            {role.title}
+          </motion.h3>
 
-            <p className="text-base text-charcoal leading-relaxed font-sans font-normal pt-1">
+          {/* 3. Mission & Domain */}
+          <motion.div variants={headerItemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+            <p className="text-base text-charcoal leading-relaxed font-sans font-normal max-w-2xl">
               {role.oneLineMission}
             </p>
-          </div>
 
-          {/* Physical Infrastructure Tag */}
-          <div className="shrink-0 flex items-center gap-2 self-start rounded-xl border border-warm-sand-border bg-ivory-light px-3.5 py-2.5 text-xs font-mono text-charcoal shadow-2xs">
-            <MapPin className="h-4 w-4 text-burnt-orange" />
-            <div className="flex flex-col">
-              <span className="text-[10px] text-charcoal-muted uppercase">
-                PRIMARY DOMAIN
-              </span>
-              <span className="font-bold text-xs">{role.infrastructureArea}</span>
+            {/* Physical Infrastructure Tag */}
+            <div className="shrink-0 flex items-center gap-2 self-start rounded-xl border border-warm-sand-border bg-ivory-light px-3.5 py-2.5 text-xs font-mono text-charcoal shadow-2xs">
+              <MapPin className="h-4 w-4 text-burnt-orange" />
+              <div className="flex flex-col">
+                <span className="text-[10px] text-charcoal-muted uppercase">
+                  PRIMARY DOMAIN
+                </span>
+                <span className="font-bold text-xs">{role.infrastructureArea}</span>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 
@@ -118,10 +202,10 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
             key={`${role.id}-routine`}
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-6"
           >
@@ -130,9 +214,16 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
               <h4 className="text-xs font-mono font-bold text-burnt-orange uppercase tracking-wider">
                 CORE MANDATES &amp; RESPONSIBILITIES
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <motion.div
+                variants={listContainerVariants}
+                initial="initial"
+                animate="enter"
+                exit="exit"
+                className="grid grid-cols-1 md:grid-cols-2 gap-3"
+              >
                 {role.responsibilities.map((resp, idx) => (
-                  <div
+                  <motion.div
+                    variants={listItemVariants}
                     key={idx}
                     className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-4"
                   >
@@ -140,9 +231,9 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
                     <p className="text-xs sm:text-sm text-charcoal leading-relaxed font-sans">
                       {resp}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
             {/* Daily Schedule Breakdown */}
@@ -150,34 +241,49 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
               <h4 className="text-xs font-mono font-bold text-burnt-orange uppercase tracking-wider">
                 A DAY IN THE LIFE: OPERATIONAL TIMELINE
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5">
+              <motion.div
+                variants={listContainerVariants}
+                initial="initial"
+                animate="enter"
+                exit="exit"
+                className="grid grid-cols-1 md:grid-cols-3 gap-4"
+              >
+                <motion.div
+                  variants={listItemVariants}
+                  className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5"
+                >
                   <span className="font-mono text-[11px] font-bold text-burnt-orange uppercase">
                     01. Routine Morning Walk
                   </span>
                   <p className="text-xs text-charcoal-muted leading-relaxed font-sans">
                     {role.everydayRoutine.morning}
                   </p>
-                </div>
+                </motion.div>
 
-                <div className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5">
+                <motion.div
+                  variants={listItemVariants}
+                  className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5"
+                >
                   <span className="font-mono text-[11px] font-bold text-burnt-orange uppercase">
                     02. Critical Incident Response
                   </span>
                   <p className="text-xs text-charcoal-muted leading-relaxed font-sans">
                     {role.everydayRoutine.incidentScenario}
                   </p>
-                </div>
+                </motion.div>
 
-                <div className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5">
+                <motion.div
+                  variants={listItemVariants}
+                  className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-1.5"
+                >
                   <span className="font-mono text-[11px] font-bold text-burnt-orange uppercase">
                     03. Audit &amp; Documentation
                   </span>
                   <p className="text-xs text-charcoal-muted leading-relaxed font-sans">
                     {role.everydayRoutine.documentation}
                   </p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
         )}
@@ -188,19 +294,26 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
             key={`${role.id}-tools`}
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-4"
           >
             <h4 className="text-xs font-mono font-bold text-burnt-orange uppercase tracking-wider">
               SPECIALIZED INSTRUMENTATION &amp; HARDWARE GEAR
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <motion.div
+              variants={listContainerVariants}
+              initial="initial"
+              animate="enter"
+              exit="exit"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
               {role.toolsAndEquipment.map((tool, idx) => (
-                <div
+                <motion.div
+                  variants={listItemVariants}
                   key={idx}
                   className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col justify-between gap-2 shadow-2xs"
                 >
@@ -215,9 +328,9 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
                   <p className="text-xs text-charcoal-muted leading-relaxed font-sans">
                     {tool.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         )}
 
@@ -227,19 +340,26 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
             key={`${role.id}-conditions`}
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-4"
           >
             <h4 className="text-xs font-mono font-bold text-burnt-orange uppercase tracking-wider">
               WORKPLACE REALITIES, RISKS &amp; ERGONOMICS
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <motion.div
+              variants={listContainerVariants}
+              initial="initial"
+              animate="enter"
+              exit="exit"
+              className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            >
               {role.workingConditions.map((cond, idx) => (
-                <div
+                <motion.div
+                  variants={listItemVariants}
                   key={idx}
                   className="rounded-xl border border-warm-sand-border bg-ivory-light p-4 flex flex-col gap-2 shadow-2xs"
                 >
@@ -258,21 +378,24 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
                       {cond.fieldReality}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* STS Human Significance Box */}
+      {/* Human Significance Box */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={`${role.id}-significance`}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.22,
+            ease: editorialEase,
+          }}
           className="flex flex-col sm:flex-row items-start gap-4 rounded-xl border border-burnt-orange/30 bg-burnt-orange/5 p-4 sm:p-5 mt-2"
         >
           <div className="p-2 rounded-lg bg-burnt-orange text-white shrink-0">
@@ -280,7 +403,7 @@ export function RoleDossierView({ role }: RoleDossierViewProps) {
           </div>
           <div className="flex flex-col gap-1">
             <strong className="text-xs font-mono font-bold text-burnt-orange uppercase tracking-wider">
-              STS HUMAN PERSPECTIVE: WHY THIS WORK MATTERS
+              HUMAN PERSPECTIVE: WHY THIS WORK MATTERS
             </strong>
             <p className="text-xs sm:text-sm text-charcoal leading-relaxed font-sans">
               {role.humanSignificance}

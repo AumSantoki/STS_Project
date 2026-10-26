@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   Sliders,
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 
 interface HardwareDetailPanelProps {
   component: HardwareComponent;
@@ -27,6 +27,90 @@ export function HardwareDetailPanel({
 }: HardwareDetailPanelProps) {
   const [activeTab, setActiveTab] = useState<"architecture" | "specs" | "context">("architecture");
   const shouldReduceMotion = useReducedMotion();
+
+  // Consistent editorial deceleration curve
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
+
+  const headerContainerVariants: Variants = {
+    initial: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.035,
+        delayChildren: shouldReduceMotion ? 0 : 0.01,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const headerItemVariants: Variants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 6,
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.24,
+        ease: editorialEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : -5,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const listContainerVariants: Variants = {
+    initial: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.03,
+        delayChildren: shouldReduceMotion ? 0 : 0.01,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.12,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  const listItemVariants: Variants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 5,
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.22,
+        ease: editorialEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.12,
+        ease: editorialEase,
+      },
+    },
+  };
 
   // Selected anatomical part, or default to first part
   const activePart =
@@ -64,20 +148,18 @@ export function HardwareDetailPanel({
 
   return (
     <div className="flex flex-col gap-5 bg-ivory-light rounded-2xl border border-warm-sand-border p-4 sm:p-6 shadow-sm overflow-hidden">
-      {/* Header Info with Smooth Cross-fade on Component Selection */}
+      {/* Header Info with Staggered Editorial Reveal on Component Selection */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={component.id}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.22,
-            ease: [0.16, 1, 0.3, 1],
-          }}
+          variants={headerContainerVariants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
           className="flex flex-col gap-2.5 pb-4 border-b border-warm-sand-border"
         >
-          <div className="flex flex-wrap items-center justify-between gap-2">
+          {/* 1. Category & Subsystem Badge Row */}
+          <motion.div variants={headerItemVariants} className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full font-mono text-[11px] font-bold bg-burnt-orange/15 text-burnt-orange border border-burnt-orange/30">
                 HARDWARE // 0{component.componentNumber}
@@ -90,24 +172,26 @@ export function HardwareDetailPanel({
             <span className="text-[11px] font-mono text-charcoal-muted">
               {component.anatomicalParts.length} Critical Subsystems
             </span>
-          </div>
+          </motion.div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
+          {/* 2. Component Name */}
+          <motion.h3 variants={headerItemVariants} className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight">
             {component.name}
-          </h3>
+          </motion.h3>
 
-          <p className="text-xs sm:text-sm font-medium text-charcoal-muted leading-relaxed">
+          {/* 3. Subtitle */}
+          <motion.p variants={headerItemVariants} className="text-xs sm:text-sm font-medium text-charcoal-muted leading-relaxed">
             {component.subtitle}
-          </p>
+          </motion.p>
 
-          {/* Purpose Callout */}
-          <div className="mt-1 p-3 rounded-xl bg-warm-sand/30 border border-warm-sand-border flex items-start gap-2.5">
+          {/* 4. Purpose Callout */}
+          <motion.div variants={headerItemVariants} className="mt-1 p-3 rounded-xl bg-warm-sand/30 border border-warm-sand-border flex items-start gap-2.5">
             <Info className="w-4 h-4 text-burnt-orange shrink-0 mt-0.5" />
             <p className="text-xs sm:text-[13px] text-charcoal leading-relaxed font-sans">
               <strong className="font-semibold text-charcoal">Core Purpose: </strong>
               {component.oneLinePurpose}
             </p>
-          </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 
@@ -158,8 +242,8 @@ export function HardwareDetailPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-4"
           >
@@ -196,8 +280,8 @@ export function HardwareDetailPanel({
                 animate={{ opacity: 1, y: 0 }}
                 exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
                 transition={{
-                  duration: shouldReduceMotion ? 0 : 0.18,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: shouldReduceMotion ? 0 : 0.2,
+                  ease: editorialEase,
                 }}
                 className="p-4 rounded-xl border border-warm-sand-border bg-ivory flex flex-col gap-2.5"
               >
@@ -248,7 +332,7 @@ export function HardwareDetailPanel({
           </motion.div>
         )}
 
-        {/* TAB 2: Specifications */}
+        {/* TAB 2: Specifications with Staggered Parameter Rows */}
         {activeTab === "specs" && (
           <motion.div
             key={`${component.id}-specs`}
@@ -256,19 +340,25 @@ export function HardwareDetailPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-3.5"
           >
             <span className="text-[11px] font-mono font-bold uppercase text-charcoal-muted tracking-wider">
-              PHYSICAL & OPERATIONAL PARAMETERS
+              PHYSICAL &amp; OPERATIONAL PARAMETERS
             </span>
 
-            <div className="grid grid-cols-1 gap-2.5">
+            <motion.div
+              variants={listContainerVariants}
+              initial="initial"
+              animate="enter"
+              className="grid grid-cols-1 gap-2.5"
+            >
               {component.specifications.map((spec, i) => (
-                <div
+                <motion.div
                   key={i}
+                  variants={listItemVariants}
                   className="p-3 rounded-xl border border-warm-sand-border bg-ivory flex flex-col gap-1"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
@@ -282,23 +372,28 @@ export function HardwareDetailPanel({
                   <p className="text-[11px] text-charcoal-muted font-sans leading-relaxed">
                     {spec.context}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Physical Form Factor Description */}
-            <div className="mt-2 p-3.5 rounded-xl bg-warm-sand/30 border border-warm-sand-border flex flex-col gap-1">
+            <motion.div
+              variants={listItemVariants}
+              initial="initial"
+              animate="enter"
+              className="mt-2 p-3.5 rounded-xl bg-warm-sand/30 border border-warm-sand-border flex flex-col gap-1"
+            >
               <span className="text-[11px] font-mono font-bold text-charcoal uppercase">
-                Field Installation & Chassis Form Factor
+                Field Installation &amp; Chassis Form Factor
               </span>
               <p className="text-xs text-charcoal-muted font-sans leading-relaxed">
                 {component.physicalDescription}
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         )}
 
-        {/* TAB 3: Human & Network Connections */}
+        {/* TAB 3: Human & Network Connections with Staggered Profiles */}
         {activeTab === "context" && (
           <motion.div
             key={`${component.id}-context`}
@@ -306,8 +401,8 @@ export function HardwareDetailPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.2,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: editorialEase,
             }}
             className="flex flex-col gap-4"
           >
@@ -318,10 +413,16 @@ export function HardwareDetailPanel({
                 CONNECTED WORKFORCE (THE PEOPLE BEHIND THIS HARDWARE)
               </span>
 
-              <div className="flex flex-col gap-2">
+              <motion.div
+                variants={listContainerVariants}
+                initial="initial"
+                animate="enter"
+                className="flex flex-col gap-2"
+              >
                 {connectedRoles.map((role) => (
-                  <div
+                  <motion.div
                     key={role.id}
+                    variants={listItemVariants}
                     className="p-3 rounded-xl border border-warm-sand-border bg-ivory flex items-center justify-between gap-3 hover:border-burnt-orange/60 transition-colors"
                   >
                     <div className="flex flex-col">
@@ -340,9 +441,9 @@ export function HardwareDetailPanel({
                       <span>View Role</span>
                       <ArrowRight className="w-3 h-3" />
                     </button>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
             {/* Trace in Journey of a Single Click */}
@@ -367,7 +468,7 @@ export function HardwareDetailPanel({
               </div>
             </div>
 
-            {/* Academic Source Reference */}
+            {/* Technical Source Reference */}
             <div className="p-3 rounded-xl bg-warm-sand/20 border border-warm-sand flex flex-col gap-1 mt-1">
               <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold text-charcoal">
                 <BookOpen className="w-3.5 h-3.5 text-burnt-orange" />

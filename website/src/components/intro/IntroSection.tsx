@@ -1,4 +1,4 @@
-import { Cable, Cpu, Radio, Users, ArrowUpRight, BookOpen } from "lucide-react";
+import { Cable, Cpu, Radio, Users, BookOpen } from "lucide-react";
 
 export function IntroSection() {
   const previewPillars = [
@@ -43,7 +43,7 @@ export function IntroSection() {
   return (
     <section
       id="pedagogical-context"
-      aria-label="Academic Research Context and Roadmap"
+      aria-label="Research Context and Roadmap"
       className="relative z-20 py-16 sm:py-24 px-4 sm:px-8 md:px-16 lg:px-24 bg-ivory-light border-t border-warm-sand-border text-charcoal scroll-mt-20"
     >
       {/* Anchor for backward compatibility */}
@@ -54,7 +54,7 @@ export function IntroSection() {
         <div className="flex flex-col gap-4 max-w-3xl">
           <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-burnt-orange uppercase font-bold">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-burnt-orange" />
-            <span>ACADEMIC FOUNDATION · STS HM216</span>
+            <span>RESEARCH FOUNDATION</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-charcoal leading-tight">
@@ -77,11 +77,8 @@ export function IntroSection() {
             <div className="flex items-center gap-2 text-xs font-mono uppercase text-charcoal-muted font-bold">
               <span>EXPLORATION DOSSIERS</span>
               <span className="text-warm-sand">/</span>
-              <span className="text-burnt-orange">PHYSICAL SUBTOPICS</span>
+              <span className="text-burnt-orange">PHYSICAL DOMAINS</span>
             </div>
-            <span className="text-xs font-mono text-charcoal-muted">
-              DEADLINE: OCT 29, 2026
-            </span>
           </div>
 
           {/* Module Cards in Warm Editorial Style */}
@@ -125,13 +122,10 @@ export function IntroSection() {
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-warm-sand-border/70 flex items-center justify-between text-xs font-mono text-charcoal-muted">
+                  <div className="mt-6 pt-4 border-t border-warm-sand-border/70 flex items-center text-xs font-mono text-charcoal-muted">
                     <span className="flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-burnt-orange" />
                       Documentary Module
-                    </span>
-                    <span className="text-[11px] text-burnt-orange font-bold flex items-center gap-1">
-                      Interactive Explorer <ArrowUpRight className="h-3 w-3" />
                     </span>
                   </div>
                 </div>
@@ -140,11 +134,11 @@ export function IntroSection() {
           </div>
         </div>
 
-        {/* Academic Attribution Footer */}
+        {/* Research Attribution Footer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 sm:pt-10 border-t border-warm-sand-border text-xs font-mono text-charcoal-muted text-center sm:text-left">
           <div className="flex items-center gap-2">
             <BookOpen className="h-4 w-4 text-burnt-orange shrink-0" />
-            <span>Behind the Screen · STS Final Project (HM216)</span>
+            <span>Behind the Screen · Physical Internet Infrastructure</span>
           </div>
           <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-4">
             <span>Preserved Research: 6 Empirical Papers</span>

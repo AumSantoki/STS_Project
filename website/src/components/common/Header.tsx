@@ -20,7 +20,7 @@ export function Header() {
             Behind the Screen
           </span>
           <span className="text-[10px] font-mono text-charcoal-muted hidden sm:inline">
-            Physical Internet Infrastructure · STS HM216
+            Physical Internet Infrastructure
           </span>
         </div>
       </div>

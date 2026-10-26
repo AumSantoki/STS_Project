@@ -124,7 +124,7 @@ export function JourneyNavigatorBar({
       <div className="w-full flex items-center gap-3 pt-1 border-t border-warm-sand-border/50">
         <div className="flex-1 h-1.5 rounded-full bg-warm-sand/60 overflow-hidden">
           <div
-            className="h-full bg-burnt-orange rounded-full transition-all duration-100 ease-out"
+            className="h-full bg-burnt-orange rounded-full transition-[width] duration-75 ease-out"
             style={{ width: `${Math.min(100, Math.max(2, Math.round(scrollProgress * 100)))}%` }}
           />
         </div>

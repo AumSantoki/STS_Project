@@ -3,7 +3,7 @@ import { TracerouteStage } from "@/types/traceroute";
 /**
  * Verified Physical Traceroute Stages.
  *
- * IMPORTANT PEDAGOGICAL CAVEAT:
+ * IMPORTANT ARCHITECTURAL CAVEAT:
  * This 6-stage physical pipeline serves as an illustrative transoceanic journey
  * (e.g., a user querying a web service hosted across an ocean basin).
  * It is NOT a universal sequence for all Internet requests:
@@ -54,8 +54,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 1: The Journey of Data",
-      sectionOrPage: "Chapter 2 (p. 5) & Chapter 5 (pp. 10–11)",
+      documentTitle: "Behind the Screen — Physical Routing & Packet Pipeline Report",
+      sectionOrPage: "Chapter 2 & Chapter 5 (Radio Physical Layer)",
       citationNotes: "RFC 9293 (TCP), RFC 768 (UDP), and IEEE 802.11 physical layer framing specifications.",
     },
     caveats: [
@@ -120,8 +120,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 1 & Subtopic 5 Research Submissions",
-      sectionOrPage: "Subtopic 1 (p. 12); Subtopic 5 (Section 2, Key Findings)",
+      documentTitle: "Behind the Screen — Local & Terrestrial Fiber Infrastructure Report",
+      sectionOrPage: "Physical Layer Architecture & Optical Distribution Standards",
       citationNotes: "GSMA Mobile Economy (2025) and ITU global connectivity statistics on usage vs. coverage gaps.",
     },
     caveats: [
@@ -186,8 +186,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 1: The Journey of Data",
-      sectionOrPage: "Chapter 1 (p. 4) & Chapter 6 (p. 12)",
+      documentTitle: "Behind the Screen — Autonomous Systems & Regional Exchange Routing Report",
+      sectionOrPage: "Autonomous System Peering & BGP Routing Policies",
       citationNotes: "IETF RFC 4271 (BGP-4 specification) and RIPE NCC routing telemetry archives.",
     },
     caveats: [
@@ -252,8 +252,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 1 & Subtopic 5 Research",
-      sectionOrPage: "Subtopic 1 (pp. 13–14); Subtopic 5 (Section 3: Tonga Case Study)",
+      documentTitle: "Behind the Screen — Transoceanic Optical Cable & Landing Facility Report",
+      sectionOrPage: "High-Voltage Power Feed & Beach Manhole Engineering",
       citationNotes: "International Cable Protection Committee (ICPC) infrastructure safety guidelines.",
     },
     caveats: [
@@ -318,8 +318,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 1 & Subtopic 5 Research",
-      sectionOrPage: "Subtopic 1 (Chapter 7, pp. 13–14); Subtopic 5 (Section 2, Case 1 & Case 3)",
+      documentTitle: "Behind the Screen — Subsea Optical Networks & Marine Maintenance Report",
+      sectionOrPage: "Deep-Sea Cable Engineering & Fault Restoration Records",
       citationNotes: "Telegeography Submarine Cable Map data and ICPC documented cable fault casualty registers.",
     },
     caveats: [
@@ -390,8 +390,8 @@ export const TRACEROUTE_STAGES: TracerouteStage[] = [
       },
     ],
     researchReference: {
-      documentTitle: "Behind the Screen — Subtopic 2: Inside the Cloud Detailed Report",
-      sectionOrPage: "Chapter 1 (pp. 4–5); Chapter 3 (pp. 8–10); Chapter 4 (pp. 11–13)",
+      documentTitle: "Behind the Screen — Hyperscale Facilities & Server Architecture Report",
+      sectionOrPage: "Thermal Management, Power Distribution & Compute Standards",
       citationNotes: "Facility engineering specs, cooling thermodynamic loops, and environmental impact assessments.",
     },
     caveats: [

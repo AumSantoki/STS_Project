@@ -1,6 +1,6 @@
 /**
  * Strongly typed contracts for "The Physical Internet — Interactive Hardware Atlas".
- * Grounded in HM216 Science, Technology, and Society (STS) Research Documents.
+ * Grounded in Physical Internet Infrastructure Research Documents.
  */
 
 export interface AnatomicalPart {

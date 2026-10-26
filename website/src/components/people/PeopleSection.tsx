@@ -6,10 +6,13 @@ import { RoleCardSelector } from "./RoleCardSelector";
 import { RoleDossierView } from "./RoleDossierView";
 import { IncidentTimelineSimulator } from "./IncidentTimelineSimulator";
 import { Users, AlertTriangle, ShieldCheck } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 export function PeopleSection() {
   const [activeRoleId, setActiveRoleId] = useState<string>(PEOPLE_ROLES[0].id);
   const [activeMode, setActiveMode] = useState<"roles" | "incidents">("roles");
+  const shouldReduceMotion = useReducedMotion();
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
 
   useEffect(() => {
     const handleSelectRole = (e: Event) => {
@@ -85,39 +88,57 @@ export function PeopleSection() {
           </button>
         </div>
 
-        {/* Content Mode 1: Role Exploration */}
-        {activeMode === "roles" && (
-          <div className="flex flex-col gap-6 animate-fadeIn">
-            {/* Horizontal Role Selector */}
-            <RoleCardSelector
-              roles={PEOPLE_ROLES}
-              activeRoleId={activeRoleId}
-              onSelectRole={setActiveRoleId}
-            />
-
-            {/* Deep-Dive Role Dossier View */}
-            <RoleDossierView role={currentRole} />
-          </div>
-        )}
-
-        {/* Content Mode 2: Incident Response Simulator */}
-        {activeMode === "incidents" && (
-          <div className="animate-fadeIn">
-            <IncidentTimelineSimulator
-              onSelectRole={(roleId) => {
-                setActiveRoleId(roleId);
-                setActiveMode("roles");
+        {/* Content Modes with Smooth Cross-fade */}
+        <AnimatePresence mode="wait" initial={false}>
+          {activeMode === "roles" ? (
+            <motion.div
+              key="roles-mode"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.18,
+                ease: editorialEase,
               }}
-            />
-          </div>
-        )}
+              className="flex flex-col gap-6"
+            >
+              {/* Horizontal Role Selector */}
+              <RoleCardSelector
+                roles={PEOPLE_ROLES}
+                activeRoleId={activeRoleId}
+                onSelectRole={setActiveRoleId}
+              />
 
-        {/* Educational STS Footnote */}
+              {/* Deep-Dive Role Dossier View */}
+              <RoleDossierView role={currentRole} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="incidents-mode"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.18,
+                ease: editorialEase,
+              }}
+            >
+              <IncidentTimelineSimulator
+                onSelectRole={(roleId) => {
+                  setActiveRoleId(roleId);
+                  setActiveMode("roles");
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Educational Labor Footnote */}
         <div className="flex items-start gap-3 rounded-xl border border-warm-sand-border bg-ivory-light p-4 text-xs font-sans text-charcoal-muted">
           <ShieldCheck className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">
-              STS Pedagogical Finding on Infrastructure Labor:
+              Key Finding on Infrastructure Labor:
             </strong>
             <span>
               Modern digital convenience obscures infrastructure labor. When services work without friction, society forgets the technicians operating in hazardous physical spaces. Recognizing the human work behind the screen is essential for understanding technological vulnerability and labor rights in the digital age.

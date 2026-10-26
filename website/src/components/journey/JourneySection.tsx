@@ -21,6 +21,7 @@ export function JourneySection() {
   const containerRef = useRef<HTMLElement | null>(null);
   const pinnedWrapperRef = useRef<HTMLDivElement | null>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+  const activeStageRef = useRef<number>(1);
 
   const currentStage =
     TRACEROUTE_STAGES.find((s) => s.stageNumber === activeStageNumber) ||
@@ -54,11 +55,17 @@ export function JourneySection() {
             // Camera sweeps from 0 to -5000 across the 6000px world
             setCameraX(-self.progress * 5000);
 
+            // Symmetrical stage threshold aligned to scene midpoints (0.10, 0.30, 0.50, 0.70, 0.90)
             const computedStage = Math.min(
               totalStages,
-              Math.max(1, Math.floor(self.progress * (totalStages - 0.001)) + 1)
+              Math.max(1, Math.round(self.progress * (totalStages - 1)) + 1)
             );
-            setActiveStageNumber(computedStage);
+
+            // Guard against redundant state updates during smooth intra-stage scrolling
+            if (computedStage !== activeStageRef.current) {
+              activeStageRef.current = computedStage;
+              setActiveStageNumber(computedStage);
+            }
           },
         },
       });
@@ -84,6 +91,7 @@ export function JourneySection() {
     (stageNum: number) => {
       if (stageNum < 1 || stageNum > totalStages) return;
 
+      activeStageRef.current = stageNum;
       setActiveStageNumber(stageNum);
       const targetProgress = (stageNum - 1) / (totalStages - 1);
       setScrollProgress(targetProgress);
@@ -240,12 +248,12 @@ export function JourneySection() {
           </div>
         </div>
 
-        {/* Pedagogical Integrity Note */}
+        {/* Routing Integrity Note */}
         <div className="flex items-start gap-2 sm:gap-2.5 rounded-xl border border-warm-sand-border bg-ivory-light p-2.5 sm:p-3 text-[11px] sm:text-xs font-sans text-charcoal-muted w-full shrink-0">
           <HelpCircle className="h-4 w-4 text-burnt-orange shrink-0 mt-0.5" />
           <div className="flex flex-col gap-0.5">
             <strong className="text-charcoal font-semibold">
-              Pedagogical Note on Internet Routing Reality:
+              Technical Note on Internet Routing Reality:
             </strong>
             <span>
               This interactive journey illustrates an intercontinental request (such as querying a service hosted overseas). 

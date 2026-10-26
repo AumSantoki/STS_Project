@@ -1,6 +1,6 @@
 /**
  * Strongly typed contracts for "The People Behind the Internet" section.
- * Grounded in HM216 Science, Technology, and Society (STS) Research Guide.
+ * Grounded in Physical Internet Infrastructure Research Documentation.
  */
 
 export interface RoleTool {

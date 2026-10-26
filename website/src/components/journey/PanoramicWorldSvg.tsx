@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
 interface PanoramicWorldSvgProps {
   cameraX: number;
@@ -14,23 +14,23 @@ export function PanoramicWorldSvg({
   isAnimatingDirectly = false,
 }: PanoramicWorldSvgProps) {
   const pathRef = useRef<SVGPathElement | null>(null);
-  const [packetPos, setPacketPos] = useState<{ x: number; y: number }>({ x: 170, y: 300 });
+  const packetRef = useRef<SVGGElement | null>(null);
 
   // Unbroken continuous optical fiber conduit path across the entire 6000px world
   const masterPathD =
     "M 170,300 C 260,300 680,250 760,250 L 780,280 C 780,410 860,410 1000,410 L 1480,410 L 2000,410 C 2100,410 2150,260 2500,260 C 2700,260 2900,160 3000,160 L 3200,230 C 3350,230 3450,350 3550,350 C 3750,350 3850,420 4000,420 L 4500,420 C 4700,420 4900,310 5000,310 C 5150,310 5250,140 5300,140 L 5500,250";
 
-  // Calculate packet position along continuous physical route
+  // Calculate packet position along continuous physical route without triggering React re-renders
   useEffect(() => {
-    if (pathRef.current) {
+    if (pathRef.current && packetRef.current) {
       try {
         const totalLength = pathRef.current.getTotalLength();
         const currentLength = Math.max(0, Math.min(1, packetProgress)) * totalLength;
         const pt = pathRef.current.getPointAtLength(currentLength);
-        setPacketPos({ x: pt.x, y: pt.y });
+        packetRef.current.setAttribute("transform", `translate(${pt.x}, ${pt.y})`);
       } catch {
         const approxX = 170 + packetProgress * (5500 - 170);
-        setPacketPos({ x: approxX, y: 300 });
+        packetRef.current.setAttribute("transform", `translate(${approxX}, 300)`);
       }
     }
   }, [packetProgress]);
@@ -462,8 +462,14 @@ export function PanoramicWorldSvg({
 
           {/* Active Travelling Signal Spark */}
           <g
+            ref={packetRef}
             id="traveling-packet"
-            transform={`translate(${packetPos.x}, ${packetPos.y})`}
+            transform="translate(170, 300)"
+            style={{
+              transition: isAnimatingDirectly
+                ? "transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)"
+                : "none",
+            }}
             className="pointer-events-none"
           >
             <circle cx="0" cy="0" r="16" fill="#C47745" fillOpacity="0.35" filter="url(#packetGlow)" />

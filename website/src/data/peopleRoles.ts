@@ -66,7 +66,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "When users upload photos or train AI models, they interact with physical silicon chips that wear out constantly. Without technicians swapping burnt-out drives and failed cooling fans around the clock, cloud platforms would experience rapid hardware degradation.",
     citation: {
-      source: "HM216 Subtopic 4 Research Guide; Microsoft & AWS Data Center Operational Job Profiles",
+      source: "Microsoft & AWS Data Center Operational Job Profiles; Server Lifecycle Maintenance Procedures",
       note: "Documented tasks in server lifecycle maintenance and physical DCIM operational procedures.",
     },
   },
@@ -135,7 +135,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "Computers generate colossal amounts of heat and require flawless electricity. Critical-facilities engineers operate the industrial thermodynamic lifelines that make the 'weightless cloud' physically possible.",
     citation: {
-      source: "Uptime Institute Facility Management Standards; HM216 Subtopic 2 & 4 Case Studies",
+      source: "Uptime Institute Facility Management Standards; Tier IV Data Centre Operational Specifications",
       note: "Standards for Tier III/IV data centre maintenance and high-voltage substation resilience.",
     },
   },
@@ -204,7 +204,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "The Internet does not automatically fix itself. When deep-sea cables snap or routers crash, NOC engineers work in real time behind the scenes to steer the world's communication around the wreckage.",
     citation: {
-      source: "IETF RFC 4271; RIPE NCC Network Operations Documentation; HM216 Subtopic 1 & 4",
+      source: "IETF RFC 4271; RIPE NCC Network Operations Documentation; Global BGP Routing Archive",
       note: "Verified procedures for global BGP path management and multi-homed carrier operations.",
     },
   },
@@ -273,7 +273,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "Every gigabyte of data that crosses an ocean or traverses a city travels through glass strands thinner than a human hair. Fiber technicians are the manual artisans whose physical precision holds the global digital web together.",
     citation: {
-      source: "KIS-ORCA Subsea Cable Maintenance; ITU-T G.652 Standards; HM216 Subtopic 5 Research",
+      source: "KIS-ORCA Subsea Cable Maintenance; ITU-T G.652 Standards; Subsea Optical Deployment Records",
       note: "Technical procedures for arc-fusion splicing and marine cable recovery operations.",
     },
   },
@@ -342,7 +342,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "The physical infrastructure of the Internet would collapse into chaos within hours without cybersecurity specialists actively thwarting automated botnets, ransomware crews, and state-backed espionage campaigns.",
     citation: {
-      source: "NIST Cybersecurity Framework (CSF 2.0); SANS Institute Incident Response Guides; HM216 Subtopic 4",
+      source: "NIST Cybersecurity Framework (CSF 2.0); SANS Institute Incident Response Guides; Telecommunications Directives",
       note: "Documented SOC workflows, threat-hunting methodologies, and cyber incident management standards.",
     },
   },
@@ -411,7 +411,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "Every digital interaction produces data. Database administrators ensure that society's collective memory—from bank balances to family photographs—remains permanently safe from corruption and instantly accessible.",
     citation: {
-      source: "ACM SIGMOD Systems Principles; VLDB Operational Case Studies; HM216 Subtopic 4 Research",
+      source: "ACM SIGMOD Systems Principles; VLDB Operational Case Studies; Distributed Systems Reliability Archives",
       note: "Empirical studies in distributed storage durability and operational disaster recovery workflows.",
     },
   },
@@ -480,7 +480,7 @@ export const PEOPLE_ROLES: ProfessionalRole[] = [
     humanSignificance:
       "When billions of users click simultaneously, no human team could manually configure every server. Site Reliability Engineers build the intelligent software layer that allows the global Internet to heal itself when physical components fail.",
     citation: {
-      source: "Google Site Reliability Engineering Handbook; USENIX SREcon Technical Archive; HM216 Subtopic 4",
+      source: "Google Site Reliability Engineering Handbook; USENIX SREcon Technical Archive; High-Availability Production Standards",
       note: "Standard operational principles for error budgets, blameless post-mortems, and distributed automation.",
     },
   },

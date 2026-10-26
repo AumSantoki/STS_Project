@@ -108,11 +108,11 @@ export function EngineeringDossierDrawer({
             </div>
           </div>
 
-          {/* 2. STS Societal & Political Impact */}
+          {/* 2. Societal & Infrastructure Vulnerability */}
           <div className="flex flex-col gap-2 rounded-xl border border-burnt-orange/30 bg-burnt-orange/5 p-4">
             <span className="font-mono text-xs font-bold text-burnt-orange uppercase flex items-center gap-2">
               <ShieldAlert className="h-4 w-4 text-burnt-orange" />
-              STS Societal Significance &amp; Vulnerability
+              Societal Significance &amp; Vulnerability
             </span>
             <p className="text-xs sm:text-sm text-charcoal leading-relaxed">
               {stage.whyItMatters}
@@ -147,11 +147,11 @@ export function EngineeringDossierDrawer({
             </div>
           </div>
 
-          {/* 4. Verified Academic Citations */}
+          {/* 4. Verified Citations */}
           <div className="flex flex-col gap-2 rounded-xl border border-warm-sand-border bg-ivory-light p-4">
             <span className="font-mono text-[11px] font-bold text-charcoal uppercase flex items-center gap-1.5">
               <BookOpen className="h-3.5 w-3.5 text-sage" />
-              Verified STS Research Reference
+              Verified Research Reference
             </span>
             <div className="text-xs text-charcoal font-medium">
               {stage.researchReference.documentTitle}
@@ -164,11 +164,11 @@ export function EngineeringDossierDrawer({
             </p>
           </div>
 
-          {/* 5. Pedagogical Caveats */}
+          {/* 5. Scope Notes */}
           {stage.caveats.length > 0 && (
             <div className="flex flex-col gap-1.5 text-[11px] text-charcoal-muted border-t border-warm-sand-border pt-4">
               <span className="font-mono font-bold uppercase text-charcoal">
-                Pedagogical Scope Note:
+                Technical Scope Note:
               </span>
               <ul className="list-disc list-inside space-y-1">
                 {stage.caveats.map((c, idx) => (

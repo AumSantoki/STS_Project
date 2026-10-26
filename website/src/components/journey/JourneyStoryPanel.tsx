@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { TracerouteStage } from "@/types/traceroute";
 import { ArrowRight, ChevronLeft, Cpu, ExternalLink, RotateCcw } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 
 interface JourneyStoryPanelProps {
   stage: TracerouteStage;
@@ -20,56 +21,125 @@ export function JourneyStoryPanel({
   onOpenDossier,
 }: JourneyStoryPanelProps) {
   const shouldReduceMotion = useReducedMotion();
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const [prevStageNumber, setPrevStageNumber] = useState<number>(stage.stageNumber);
+
+  // Synchronously compute scroll/step direction during render
+  if (stage.stageNumber !== prevStageNumber) {
+    setDirection(stage.stageNumber >= prevStageNumber ? 1 : -1);
+    setPrevStageNumber(stage.stageNumber);
+  }
+
+  // Consistent editorial easing curve (smooth, restrained, non-bouncy deceleration)
+  const editorialEase = [0.22, 1, 0.36, 1] as const;
+
+  // Container variants orchestrating the deliberate cascading entrance sequence
+  const containerVariants: Variants = {
+    initial: {
+      opacity: 0,
+    },
+    enter: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.045,
+        delayChildren: shouldReduceMotion ? 0 : 0.015,
+      },
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    },
+  };
+
+  // Staggered child variants: 1. Eyebrow, 2. Heading, 3. Explanation, 4. Why-It-Matters
+  const itemVariants: Variants = {
+    initial: (dir: number = direction) => ({
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : dir >= 0 ? 8 : -8,
+    }),
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.28,
+        ease: editorialEase,
+      },
+    },
+    exit: (dir: number = direction) => ({
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : dir >= 0 ? -6 : 6,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.13,
+        ease: editorialEase,
+      },
+    }),
+  };
 
   return (
     <div className="flex flex-col justify-between h-full w-full gap-3 sm:gap-4 p-4 sm:p-5 lg:p-5 xl:p-6 rounded-2xl border border-warm-sand-border bg-ivory-light shadow-xs overflow-hidden">
-      {/* Top Section: Stage Identification, What Happens, and Why It Matters with Smooth Text Transitions */}
+      {/* Top Section: Staggered Hierarchical Storyboard Elements */}
       <div className="relative min-h-[210px] sm:min-h-[195px] lg:min-h-[190px] xl:min-h-[210px]">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait" initial={false} custom={direction}>
           <motion.div
             key={stage.stageNumber}
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.24,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            custom={direction}
+            variants={containerVariants}
+            initial="initial"
+            animate="enter"
+            exit="exit"
             className="flex flex-col gap-3.5"
           >
-            {/* Stage Number & Clear Title */}
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
-                <span className="text-xs font-mono font-bold tracking-wider text-burnt-orange uppercase">
-                  JOURNEY STAGE 0{stage.stageNumber} OF 0{totalStages}
-                </span>
-              </div>
+            {/* 1. Stage Number & Eyebrow */}
+            <motion.div
+              custom={direction}
+              variants={itemVariants}
+              className="flex items-center gap-2"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-burnt-orange animate-pulse" />
+              <span className="text-xs font-mono font-bold tracking-wider text-burnt-orange uppercase">
+                JOURNEY STAGE 0{stage.stageNumber} OF 0{totalStages}
+              </span>
+            </motion.div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight leading-tight">
-                {stage.title}
-              </h3>
-            </div>
+            {/* 2. Main Heading */}
+            <motion.h3
+              custom={direction}
+              variants={itemVariants}
+              className="text-2xl sm:text-3xl font-extrabold text-charcoal tracking-tight leading-tight -mt-2"
+            >
+              {stage.title}
+            </motion.h3>
 
-            {/* What Happens: 2 to 4 short sentences in everyday English */}
-            <div className="flex flex-col gap-1">
+            {/* 3. Physical Explanation */}
+            <motion.div
+              custom={direction}
+              variants={itemVariants}
+              className="flex flex-col gap-1"
+            >
               <span className="text-[11px] font-mono font-bold text-burnt-orange uppercase tracking-wider">
                 WHAT HAPPENS
               </span>
               <p className="text-sm sm:text-[15px] lg:text-base text-charcoal leading-relaxed font-sans font-normal">
                 {stage.physicalExplanation}
               </p>
-            </div>
+            </motion.div>
 
-            {/* Why It Matters: 1 short sentence connecting to everyday use */}
-            <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border/80 bg-ivory p-3 text-xs sm:text-sm text-charcoal leading-snug">
+            {/* 4. Why It Matters Callout */}
+            <motion.div
+              custom={direction}
+              variants={itemVariants}
+              className="flex flex-col gap-1 rounded-xl border border-warm-sand-border/80 bg-ivory p-3 text-xs sm:text-sm text-charcoal leading-snug"
+            >
               <strong className="text-[11px] font-mono font-bold text-burnt-orange uppercase">
                 WHY IT MATTERS
               </strong>
               <span className="text-charcoal-muted font-normal">
                 {stage.whyItMatters}
               </span>
-            </div>
+            </motion.div>
           </motion.div>
         </AnimatePresence>
       </div>
