@@ -73,6 +73,7 @@ export function IntroSection() {
 
         {/* Exploration Pillars */}
         <div className="flex flex-col gap-6">
+          <div id="exploration-dossiers" className="scroll-mt-28" />
           <div className="flex items-center justify-between pb-4 border-b border-warm-sand-border">
             <div className="flex items-center gap-2 text-xs font-mono uppercase text-charcoal-muted font-bold">
               <span>EXPLORATION DOSSIERS</span>
