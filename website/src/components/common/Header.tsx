@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Globe, Menu, X } from "lucide-react";
+import { SimpleWordsToggle } from "./SimpleWordsToggle";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,8 +129,12 @@ export function Header() {
               RESEARCH DOSSIER
             </span>
           </a>
+          <SimpleWordsToggle />
         </nav>
 
+        {/* Mobile Actions */}
+        <div className="flex md:hidden items-center gap-2">
+          <SimpleWordsToggle />
         {/* Mobile Hamburger Toggle Button */}
         <button
           type="button"
@@ -145,6 +150,7 @@ export function Header() {
             <Menu className="h-4 w-4 text-charcoal" />
           )}
         </button>
+        </div>
       </div>
 
       {/* Mobile Collapsible Navigation Panel (Positioned as absolute dropdown so header height never mutates) */}

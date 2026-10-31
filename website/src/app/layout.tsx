@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SimpleWordsProvider } from "@/components/common/SimpleWordsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,7 +49,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full bg-ivory text-charcoal selection:bg-burnt-orange/20 selection:text-burnt-orange">
-        {children}
+        <SimpleWordsProvider>
+          {children}
+        </SimpleWordsProvider>
       </body>
     </html>
   );

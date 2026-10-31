@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { ArrowRight, Compass, Sparkles } from "lucide-react";
 import { HeroEditorialSvg } from "./HeroEditorialSvg";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
@@ -174,7 +175,7 @@ export function HeroSection() {
         >
           <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 sm:p-4 shadow-2xs">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-burnt-orange tracking-tight">
-              99%
+              <AnimatedCounter target={99} suffix="%" />
             </span>
             <span className="text-xs text-charcoal font-semibold">
               Intercontinental Optical Share
@@ -182,11 +183,14 @@ export function HeroSection() {
             <span className="text-[11px] text-charcoal-muted leading-tight">
               Carried by physical cables resting on ocean floors, not satellites
             </span>
+            <span className="text-[10px] font-mono text-charcoal-muted/80 pt-1 border-t border-warm-sand-border/50">
+              Source: TeleGeography Submarine Telecoms Forum (verified)
+            </span>
           </div>
 
           <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 sm:p-4 shadow-2xs">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-charcoal tracking-tight">
-              1.4M+ km
+              <AnimatedCounter target={1.4} decimals={1} suffix="M+ km" />
             </span>
             <span className="text-xs text-charcoal font-semibold">
               Submarine Cable Fabric
@@ -194,17 +198,23 @@ export function HeroSection() {
             <span className="text-[11px] text-charcoal-muted leading-tight">
               Hair-thin glass fibers linking global continents beneath the abyss
             </span>
+            <span className="text-[10px] font-mono text-charcoal-muted/80 pt-1 border-t border-warm-sand-border/50">
+              Source: ICPC Submarine Cable Registry (approximate)
+            </span>
           </div>
 
           <div className="flex flex-col gap-1 rounded-xl border border-warm-sand-border bg-ivory-light p-3.5 sm:p-4 shadow-2xs">
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-sage-green tracking-tight">
-              2.2 Billion
+              <AnimatedCounter target={2.2} decimals={1} suffix=" Billion" />
             </span>
             <span className="text-xs text-charcoal font-semibold">
               The Physical Digital Divide
             </span>
             <span className="text-[11px] text-charcoal-muted leading-tight">
               Humans completely offline due to infrastructure and cost barriers
+            </span>
+            <span className="text-[10px] font-mono text-charcoal-muted/80 pt-1 border-t border-warm-sand-border/50">
+              Source: ITU Facts and Figures 2024 Report
             </span>
           </div>
         </motion.div>
